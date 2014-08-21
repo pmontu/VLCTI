@@ -13,18 +13,12 @@ from institute.models import FacultyContract
 from institute.models import Receipt
 from institute.models import Payment
 
-
-def getStudentDetails(request):
-    query = QueryDict(request.body)
-    n = query.get("circle","Vadapalani")
-    c = Circle.objects.filter(name=n)
-    fs = Faculty.objects.filter(circle = c)
-    return HttpResponse(fs)
-
 def getStudent(request):
 
 	studentModels = []
 
+
+	#	VALIDATION
 	isNameValid = False
 	q = QueryDict(request.body)
 	if q.__contains__("name"):
@@ -37,16 +31,17 @@ def getStudent(request):
 		if i.isdigit() and int(i)>0:
 			isIDValid = True
 
+	#	QUERY
 	if isNameValid and not isIDValid:
 		studentModels = Student.objects.filter(name__contains=n)
-	elif not isNameValid and isIDValid:
+	elif isIDValid:
 		studentModels = Student.objects.filter(id=i)
-	elif isNameValid and isIDValid:
-		studentModels = Student.objects.filter(id=i)
+	else:
+		studentModels = Student.objects.all()
 
 
 
-
+	#	RESPONSE
 	students = []
 	for s in studentModels:
 		d = {
