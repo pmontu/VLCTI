@@ -4,5 +4,6 @@ from institute import views
 
 urlpatterns = patterns (
 	'',
-	url(r'^$',views.getStudentDetails),
+	#url(r'^$',views.getStudentDetails),
+	url(r'^student/$',views.getStudent)
 	)

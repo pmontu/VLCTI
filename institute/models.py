@@ -86,9 +86,9 @@ class Receipt(models.Model):
 	amount = models.PositiveIntegerField()
 	date = models.DateField()
 	serial = models.CharField(max_length=200)
-	package = models.ForeignKey(Package)
+	contract = models.ForeignKey(Contract)
 	def __unicode__(self):
-		return "\"%s\" %s : Rs%d , %s" % (self.date, self.serial, self.amount, self.package)
+		return "\"%s\" %s : Rs%d , %s" % (self.date, self.serial, self.amount, self.contract)
 
 class Payment(models.Model):
 	amount = models.PositiveIntegerField()
