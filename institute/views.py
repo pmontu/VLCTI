@@ -53,6 +53,11 @@ def getStudentList(request):
 	s = items * (page-1)
 	e = s + items
 
+	if q.__contains__("direction"):
+		d = q.__getitem__("direction")
+		if d=="false":
+			ob = "-"+ob
+
 	#	QUERY
 	l = 0
 	if isNameValid and not isIDValid:
