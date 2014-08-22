@@ -13,7 +13,7 @@ from institute.models import FacultyContract
 from institute.models import Receipt
 from institute.models import Payment
 
-def getStudent(request):
+def getStudentList(request):
 
 	studentModels = []
 
@@ -31,13 +31,40 @@ def getStudent(request):
 		if i.isdigit() and int(i)>0:
 			isIDValid = True
 
+	#	ORDER BY
+	ob = "name"
+	if q.__contains__("orderby"):
+		o = q.__getitem__("orderby")
+		if o == "name" or o == "id" or o == "-name" or o == "-id" :
+			ob = o
+
+	page=1
+	if q.__contains__("page"):
+		p=q.__getitem__("page")
+		if p.isdigit() and int(p)>0:
+			page = int(p)
+
+	items = 10
+	if q.__contains__("items"):
+		i = q.__getitem__("items")
+		if i.isdigit() and int(i)>0:
+			items = int(i)
+
+	s = items * (page-1)
+	e = s + items
+
 	#	QUERY
+	l = 0
 	if isNameValid and not isIDValid:
-		studentModels = Student.objects.filter(name__contains=n)
+		studentModels = Student.objects.filter(name__contains=n).order_by(ob)[s:e]
+		l = Student.objects.filter(name__contains=n).count()
 	elif isIDValid:
-		studentModels = Student.objects.filter(id=i)
+		studentModels = Student.objects.filter(id=i).order_by(ob)[s:e]
+		l=Student.objects.filter(id=i).count()
 	else:
-		studentModels = Student.objects.all()
+		studentModels = Student.objects.all().order_by(ob)[s:e]
+		l = Student.objects.all().count()
+
 
 
 
@@ -50,6 +77,9 @@ def getStudent(request):
 		}
 		students.append(d)
 
-	jsonData = json.dumps(students)
+	studentsData={
+		"students":students,
+		"length":l
+	}
+	jsonData = json.dumps(studentsData)
 	return HttpResponse(jsonData,mimetype="application/json")
-
