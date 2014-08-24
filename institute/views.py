@@ -13,6 +13,23 @@ from institute.models import FacultyContract
 from institute.models import Receipt
 from institute.models import Payment
 
+#	input - request.body - urlencoded
+#	---------------------------------
+#
+#	1.name
+#	2.id
+#	3.orderby - name or id
+#	4.page
+#	5.items
+#	6.direction - false
+#
+#	returns - json
+#	--------------
+#
+#	totallength
+#	students:array
+#		id
+#		name
 def getStudentList(request):
 
 	studentModels = []
@@ -84,7 +101,7 @@ def getStudentList(request):
 
 	studentsData={
 		"students":students,
-		"length":l
+		"totallength":l
 	}
 	jsonData = json.dumps(studentsData)
 	return HttpResponse(jsonData,mimetype="application/json")
