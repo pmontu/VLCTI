@@ -29,13 +29,15 @@
 					<th><button ng-click="orderByStudents(column.id, sortDirection=!sortDirection)" class="btn btn-link btn-lg">ID</button></th>
 					<th><button ng-click="orderByStudents(column.name, sortDirection=!sortDirection)" class="btn btn-link btn-lg">Name</button></th>
 				</tr>
-				<tr ng-repeat="student in students | filter:selected" ng-click="refreshContracts(student)">
+				<tr ng-repeat="student in students | filter:selected" ng-click="select(student)">
 					<td>{{student.id}}</td>
 					<td>{{student.name}}</td>
 				</tr>
 			</table>
 
-			<pagination ng-if="!selected" direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" items-per-page="itemsPerPage"></pagination>
+			<div ng-if="!selected">
+				<pagination direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" items-per-page="itemsPerPage"></pagination>
+			</div>
 
 		</div>
 	</div>

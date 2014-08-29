@@ -80,7 +80,7 @@ app.controller('studentsController',function($scope,instituteFactory){
 
 
 	//  STAGE 2
-	$scope.refreshContracts = function(student){
+	$scope.select = function(student){
 		$scope.selected = student;
 	};
 
@@ -111,10 +111,7 @@ app.controller('paginationController',function ($scope) {
 app.factory('instituteFactory', function($http){
 
 	var factory = {};
-	var domain = "http://192.168.0.3:12346/institute/";
-
-	//$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
+	var domain = "http://192.168.0.4:12346/institute/";
 
 	factory.getStudents = function(search){
 		return $http.post(domain+"student/list.json",search);
