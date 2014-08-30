@@ -5,5 +5,5 @@ from institute import views
 urlpatterns = patterns (
 	'',
 	#url(r'^$',views.getStudentDetails),
-	url(r'^student/list\.json$',views.getStudentList)
+	url(r'^student/list\.json$',views.getStudentList),
 	)

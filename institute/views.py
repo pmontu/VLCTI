@@ -13,7 +13,7 @@ from institute.models import FacultyContract
 from institute.models import Receipt
 from institute.models import Payment
 
-#	input - request.body - urlencoded
+#	input - request.body - json
 #	---------------------------------
 #
 #	1.name
@@ -30,50 +30,79 @@ from institute.models import Payment
 #	students:array
 #		id
 #		name
+
 def getStudentList(request):
 
 	studentModels = []
 
 
+	j = json.loads(request.body)
+
 	#	VALIDATION
 	isNameValid = False
-	q = QueryDict(request.body)
-	if q.__contains__("name"):
-		n = q.__getitem__("name")
+	if "name" in j:
+		n = j["name"]
 		isNameValid = True
+	else:
+		raise KeyError("name missing")
 
 	isIDValid = False
-	if q.__contains__("id"):
-		i = q.__getitem__("id")
-		if i.isdigit() and int(i)>0:
-			isIDValid = True
+	if "id" in j:
+		id= j["id"]
+		try:
+			if int(id)>0:
+				isIDValid = True
+		except:
+			raise ValueError("Invalid id - number")
+	else:
+		raise KeyError("id missing")
 
-	#	ORDER BY
 	ob = "name"
-	if q.__contains__("orderby"):
-		o = q.__getitem__("orderby")
+	if "orderby" in j:
+		o = j["orderby"]
 		if o == "name" or o == "id" or o == "-name" or o == "-id" :
 			ob = o
+		else:
+			raise ValueError("Invalid orderby")
+	else:
+		raise KeyError("orderby missing")
 
 	page=1
-	if q.__contains__("page"):
-		p=q.__getitem__("page")
-		if p.isdigit() and int(p)>0:
-			page = int(p)
+	if "page" in j:
+		p = j["page"]
+		try:
+			if int(p)>0:
+				page = int(p)
+			else:
+				raise ValueError("invalid page - positive number")
+		except:
+			raise ValueError("invalid page - number")		
+	else:
+		raise KeyError("page missing - number")
 
 	items = 10
-	if q.__contains__("items"):
-		i = q.__getitem__("items")
-		if i.isdigit() and int(i)>0:
-			items = int(i)
+	if "items" in j:
+		i = j["items"]
+		try:
+			if int(i)>0:
+				items = int(i)
+			else:
+				raise ValueError("invalid items - positive number")
+		except:
+			raise ValueError("invalid items - number")
 
 	s = items * (page-1)
 	e = s + items
 
-	if q.__contains__("direction"):
-		d = q.__getitem__("direction")
-		if d=="false":
-			ob = "-"+ob
+	if "direction" in j:
+		d = j["direction"]
+		try:
+			if d==False:
+				ob = "-"+ob
+		except:
+			raise ValueError("invalid direction - boolean")
+	else:
+		raise KeyError("missing direction - boolean")
 
 	#	QUERY
 	l = 0
@@ -81,8 +110,8 @@ def getStudentList(request):
 		studentModels = Student.objects.filter(name__contains=n).order_by(ob)[s:e]
 		l = Student.objects.filter(name__contains=n).count()
 	elif isIDValid:
-		studentModels = Student.objects.filter(id=i).order_by(ob)[s:e]
-		l=Student.objects.filter(id=i).count()
+		studentModels = Student.objects.filter(id=id).order_by(ob)[s:e]
+		l=Student.objects.filter(id=id).count()
 	else:
 		studentModels = Student.objects.all().order_by(ob)[s:e]
 		l = Student.objects.all().count()
