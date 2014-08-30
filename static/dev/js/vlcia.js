@@ -22,7 +22,7 @@ app.config(function($routeProvider,$httpProvider){
 });
 
 app.controller("receiptsController",function($scope,instituteFactory){
-	
+
 });
 
 app.controller('studentsController',function($scope,instituteFactory){
@@ -97,21 +97,11 @@ app.controller('studentsController',function($scope,instituteFactory){
 	$scope.reload();
 });
 
-app.controller('paginationController',function ($scope) {
-    $scope.totalItems = 64;
-    $scope.currentPage = 4;
-
-    $scope.pageChanged = function() {
-    console.log('Page changed to: ' + $scope.currentPage);
-    };
-
-    $scope.maxSize = 5;
-});
 
 app.factory('instituteFactory', function($http){
 
 	var factory = {};
-	var domain = "http://192.168.0.4:12346/institute/";
+	var domain = "http://192.168.0.2:12346/institute/";
 
 	factory.getStudents = function(search){
 		return $http.post(domain+"student/list.json",search);

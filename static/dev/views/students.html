@@ -35,9 +35,7 @@
 				</tr>
 			</table>
 
-			<div ng-if="!selected">
-				<pagination direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" items-per-page="itemsPerPage"></pagination>
-			</div>
+			<pagination ng-hide="selected" direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" items-per-page="itemsPerPage"></pagination>
 
 		</div>
 	</div>
