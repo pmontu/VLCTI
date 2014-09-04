@@ -1,5 +1,6 @@
 
 from django.http import HttpResponse, QueryDict
+from django.core import serializers
 
 import json
 
@@ -13,25 +14,83 @@ from institute.models import FacultyContract
 from institute.models import Receipt
 from institute.models import Payment
 
-#	input - request.body - json
-#	---------------------------------
+#	STUDENT_GET
 #
-#	1.name
-#	2.id
-#	3.orderby - name or id
-#	4.page
-#	5.items
-#	6.direction - false
 #
-#	returns - json
-#	--------------
+###################################################
+
+def student_get(request, id):
+
+	data = {}
+
+	try:
+		s = Student.objects.get(id=id)
+	except:
+		raise Exception("Invalid Student ID")
+
+	data["details"]={
+		"name":s.name,
+		"id":s.id
+	}
+
+	contracts = Contract.objects.filter(student = s)
+	data["contracts"] = []
+	for c in contracts:
+
+		packages = Package.objects.filter(contract = c)
+		packs = []
+		for p in packages:
+			packs.append({
+					"name":p.course.name,
+					"id":p.course.id,
+					"faculty":{
+						"name":p.facultycontract.faculty.name,
+						"id":p.facultycontract.faculty.id
+					}
+				})
+
+		data["contracts"].append({
+				"joiningdate":str(c.joiningdate),
+				"hours":c.hours,
+				"amount":c.amount,
+				"mode":c.get_mode_display(),
+				"instalments":c.instalments,
+				"id":c.id,
+				"subjects":packs
+			})
+
+
+	return HttpResponse(json.dumps(data))
+
+
+
+
+
+
+
+
+
+
+
+#	STUDENT_LIST
+#
+############################################
+
+#	1.string name
+#	2.number id
+#	3.string orderby
+#	4.number page
+#	5.number items
+#	6.bool direction
 #
 #	totallength
-#	students:array
+#	students
 #		id
 #		name
+#
+#############################################
 
-def getStudentList(request):
+def student_list(request):
 
 	studentModels = []
 

@@ -3,7 +3,7 @@ var app = angular.module("vlcimApp",['ui.bootstrap','ngRoute']);
 //app.controller = DatepickerDemoCtrl;
 
 app.config(function($routeProvider,$httpProvider){
-	$routeProvider.when('/students',
+	$routeProvider.when('/',
 		{
 			controller: "studentsController",
 			templateUrl: "views/students.html"
@@ -11,29 +11,58 @@ app.config(function($routeProvider,$httpProvider){
 });
 
 app.controller('studentsController',function($scope,instituteFactory){
-	
+	$scope.selectSubjects = function(subjects){
+		$scope.subjects = subjects;
+	};
+	$scope.reset = function(){
+		$scope.subjects = null;
+		$scope.student = null;
+		$scope.info = null;
+	};
+	$scope.get = function(student){
+		$scope.student = student;
+		instituteFactory.Student.get(student.id).success(function(data){
+			$scope.info = data;
+		});
+	};
+});
+
+app.directive("contractadd",function(){
+	return {
+		restrict:"E",
+		scope:{},
+		controller:function($scope){},
+		templateUrl:"views/contract-add.html"
+	};
 });
 
 app.directive("studentsearch",function(){
 	return {
 		restrict:"E",
-		scope:{},
+		scope:{
+			action:"&",
+			reset:"&"
+		},
 		controller:function($scope, instituteFactory){
+			//	SETTINGS
 			$scope.search = {};
 			$scope.column = {name:"name",id:"id"};
-		    $scope.currentPage = 1;
-		    $scope.itemsPerPage = 3;
+		    $scope.itemsPerPage = 5;
 		    $scope.maxSize = 5;
 
 			//  STAGE 0 - STUDENTS
 			$scope.reload = function(){
 
+				$scope.reset();
+
 				$scope.search.name = "";
 				$scope.search.id = 0;
 				$scope.search.orderBy = $scope.column.id;
 				$scope.sortDirection = true;
+		    	$scope.currentPage = 1;
 
 				$scope.load();
+
 			};
 
 			//  STAGE 1 - STUDENTS
@@ -53,7 +82,7 @@ app.directive("studentsearch",function(){
 					"direction":$scope.sortDirection
 				}
 
-				instituteFactory.getStudents(requestData).success(function(data){
+				instituteFactory.Student.list(requestData).success(function(data){
 					if(data.students.length>0){
 						$scope.students = data.students;
 		                $scope.totalItems = data.totallength;
@@ -73,7 +102,8 @@ app.directive("studentsearch",function(){
 
 			//  STAGE 2
 			$scope.select = function(student){
-				$scope.selected = student;
+				$scope.selected = student
+				$scope.action()(student);
 			};
 
 			$scope.filter = function(){
@@ -93,8 +123,13 @@ app.factory('instituteFactory', function($http){
 	var factory = {};
 	var domain = "http://127.0.0.1:12346/institute/";
 
-	factory.getStudents = function(search){
+	factory['Student'] = {
+		get:function(id){
+			return $http.get(domain+"student/"+id+"/get.json");
+		},
+		list:function(search){
 		return $http.post(domain+"student/list.json",search);
+		}
 	};
 
 	return factory;
