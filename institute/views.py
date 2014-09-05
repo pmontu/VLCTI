@@ -9,10 +9,11 @@ from institute.models import Course
 from institute.models import Contract
 from institute.models import Circle
 from institute.models import Faculty
-from institute.models import Package
+from institute.models import Link
 from institute.models import FacultyContract
 from institute.models import Receipt
 from institute.models import Payment
+from institute.models import Group
 
 #	STUDENT_GET
 #
@@ -24,28 +25,45 @@ def student_get(request, id):
 	data = {}
 
 	try:
-		s = Student.objects.get(id=id)
+		s = Student.objects.select_related().get(id=id)
 	except:
 		raise Exception("Invalid Student ID")
 
 	data["details"]={
 		"name":s.name,
-		"id":s.id
+		"id":s.id,
+		"dob":str(s.dob),
+		"contact":{
+			"email":s.email,
+			"phone":s.phone,
+			"address":s.address
+		},
+		"institution":s.institution,
+		"enquiry":{
+			"course":s.enquiredcourse.name,
+			"subjects":s.enquiredsubjects,
+			"start":str(s.enquiredstartdate)
+		},
+		"parent":{
+			"name":s.parent,
+			"info":s.parentinfo
+		}
 	}
 
 	contracts = Contract.objects.filter(student = s)
 	data["contracts"] = []
 	for c in contracts:
 
-		packages = Package.objects.filter(contract = c)
-		packs = []
-		for p in packages:
-			packs.append({
-					"name":p.course.name,
-					"id":p.course.id,
+		subjects = Link.objects.select_related().filter(contract = c)
+		subs = []
+		for s in subjects:
+			subs.append({
+					"type":s.group.get_mode_display(),
+					"name":s.group.course.name,
+					"id":s.group.course.id,
 					"faculty":{
-						"name":p.facultycontract.faculty.name,
-						"id":p.facultycontract.faculty.id
+						"name":s.group.facultycontract.faculty.name,
+						"id":s.group.facultycontract.faculty.id
 					}
 				})
 
@@ -56,7 +74,7 @@ def student_get(request, id):
 				"mode":c.get_mode_display(),
 				"instalments":c.instalments,
 				"id":c.id,
-				"subjects":packs
+				"subjects":subs
 			})
 
 

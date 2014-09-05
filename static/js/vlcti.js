@@ -25,6 +25,9 @@ app.controller('studentsController',function($scope,instituteFactory){
 			$scope.info = data;
 		});
 	};
+	$scope.updatedetails = function(){
+		
+	};
 });
 
 app.directive("contractadd",function(){
