@@ -55,7 +55,9 @@
 		<div class="form-group form-group">
 			<label class="col-sm-2 control-label" for="formGroupInputSmall">Course Enquired</label>
 			<div class="col-sm-3">
-				<selectcourse id="user.course"></selectcourse>
+				<select ng-model="user.course" ng-options="c.id as c.name for c in courses" class="form-control" >
+					<option value="">----</option>
+				</select>
 			</div>
 		</div>
 
@@ -86,7 +88,7 @@
 <span ng-show="stage==3">
 	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
 		{{alert.msg}}
-		<button class="btn btn-link" type="button">
+		<button class="btn btn-link" type="button" ng-click="stage=1;selection()(alert.userid)">
 			<span class="glyphicon glyphicon-user"></span> {{alert.user}}
 		</button>
 	</alert>

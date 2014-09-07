@@ -6,5 +6,5 @@ urlpatterns = patterns (
 	'',
 	url(r'^student/list\.json$',views.student_list),
 	url(r'^student/(\d+)/get\.json$',views.student_get),
-	url(r'^course/parent/(\d+)/list\.json$',views.course_list),
+	url(r'^course/list\.json$',views.course_list),
 	)
