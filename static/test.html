@@ -1,0 +1,24 @@
+<html>
+<body>
+	<script src="js/angular.js"></script>
+	<script>
+		var app = angular.module("app", []);
+		app.controller("con",function($scope){
+		});
+		app.directive("dir",function(){
+			return {
+				restrict:"EA",
+				template:"{{v}}",
+				link:function(scope, element, attrs){
+					scope.$watch(attrs.v, function(val){
+						console.log(val);
+					})
+				}
+			}
+		})
+	</script>
+	<div ng-app="app" ng-controller="con">
+		<input type="text" ng-model="val"/>
+		<dir v="val"></dir>
+	</div>
+</body>

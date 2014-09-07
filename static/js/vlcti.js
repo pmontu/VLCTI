@@ -10,6 +10,27 @@ app.config(function($routeProvider,$httpProvider){
 		});
 });
 
+app.directive("studentdetails",function(){
+	return {
+		restrict:"E",
+		templateUrl:"views/student-details.html",
+		controller:function($scope, instituteFactory){
+			$scope.load = function(studentid){
+				instituteFactory.Student.get(studentid).success(function(data){
+					$scope.student = data;
+				});
+			};
+			
+		},
+		link:function(scope, element, attrs){
+			scope.$watch(attrs.id,function(value){
+				if(!angular.isUndefined(value))
+					scope.load(value);
+			});
+		}
+	};
+});
+
 app.directive("addstudent",function(){
 	return {
 		restrict:"E",
@@ -27,7 +48,11 @@ app.directive("addstudent",function(){
 
 			$scope.save = function(){
 				$scope.stage=3;
-				$scope.alerts.push({msg:'Successfully added.', type:"success", user:"Manoj Kumar P", userid:1});
+				$scope.alerts.push({
+					msg:'Successfully added.',
+					type:"success", user:"Manoj Kumar P",
+					userid:1
+				});
 			};
 
 			$scope.closeAlert = function(index){
