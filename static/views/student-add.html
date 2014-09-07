@@ -1,0 +1,94 @@
+<span ng-show="stage==1">
+	<button type="button" class="btn btn-default" ng-click="stage=2;fun()(1)">
+		<span class="glyphicon glyphicon-plus"></span> Add Student
+	</button>
+</span>
+
+<span ng-show="stage==2">
+
+	{{user}}
+
+	<form class="form-horizontal" role="form" ng-submit="save()">
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Name</label>
+			<div class="col-sm-3">
+				<input type="text" maxlength="200" class="form-control" ng-model="user.name"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Date of Birth</label>
+			<div class="col-sm-3">
+				<input type="date" class="form-control" ng-model="user.dob"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Email</label>
+			<div class="col-sm-3">
+				<input type="email" class="form-control" ng-model="user.email"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Phone</label>
+			<div class="col-sm-3">
+				<input type="text" maxlength="10" class="form-control" ng-model="user.phone"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Address</label>
+			<div class="col-sm-3">
+				<input type="text" maxlength="200" class="form-control" ng-model="user.address"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Institutiton</label>
+			<div class="col-sm-3">
+				<input type="text" maxlength="200" class="form-control" ng-model="user.institution"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Course Enquired</label>
+			<div class="col-sm-3">
+				<selectcourse id="user.course"></selectcourse>
+			</div>
+		</div>
+
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Required Subjects</label>
+			<div class="col-sm-3">
+				<input type="text" maxlength="200" class="form-control" ng-model="user.subjects"/>
+			</div>
+		</div>
+
+
+		<div class="form-group form-group">
+			<label class="col-sm-2 control-label" for="formGroupInputSmall">Preferred Start Date</label>
+			<div class="col-sm-3">
+				<input type="date" class="form-control" ng-model="user.start"/>
+			</div>
+		</div>
+
+		<button class="btn btn-default col-sm-offset-2">
+			<span class="glyphicon glyphicon-floppy-save"></span> Save
+		</button>
+
+	</form>
+		
+</span>
+
+<span ng-show="stage==3">
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+		<button class="btn btn-link" type="button">
+			<span class="glyphicon glyphicon-user"></span> {{alert.user}}
+		</button>
+	</alert>
+<span>
+

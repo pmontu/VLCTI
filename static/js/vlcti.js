@@ -5,9 +5,66 @@ var app = angular.module("vlcimApp",['ui.bootstrap','ngRoute']);
 app.config(function($routeProvider,$httpProvider){
 	$routeProvider.when('/',
 		{
-			controller: "studentsController",
-			templateUrl: "views/students.html"
+			controller: "linkController",
+			templateUrl: "views/link.html"
+		}).when('/test',
+		{
+			controller:"studentsController",
+			templateUrl:"views/students.html"
 		});
+});
+
+app.directive("selectcourse",function(instituteFactory){
+	return {
+		restrict:"E",
+		scope:{
+			id:"="
+		},
+		controller:function($scope){
+			instituteFactory.Course.list(0).success(function(data){
+				$scope.courses = data;
+			});
+		},
+		templateUrl:'views/course-select.html'
+	};
+});
+
+app.directive("addstudent",function(){
+	return {
+		restrict:"E",
+		scope:{
+			fun:"&"
+		},
+		controller:function($scope){
+			$scope.stage=1;
+			$scope.alerts = [];
+
+			$scope.save = function(){
+				$scope.stage=3;
+				$scope.alerts.push({msg:'Successfully added.', type:"success", user:"Manoj Kumar P", uid:1});
+			};
+
+			$scope.closeAlert = function(index){
+				$scope.alerts.splice(index,1);
+				if($scope.alerts.length==0){
+					$scope.stage=1;
+					$scope.fun()(0);
+				}
+			}
+
+			$scope.val=0;
+
+ 		},
+		templateUrl:"views/student-add.html"
+	};
+});
+
+
+app.controller("linkController",function($scope){
+	$scope.stage=0;
+	$scope.stateChange = function(val){
+		$scope.stage=val;
+	}
 });
 
 app.controller('studentsController',function($scope,instituteFactory){
@@ -131,9 +188,14 @@ app.factory('instituteFactory', function($http){
 			return $http.get(domain+"student/"+id+"/get.json");
 		},
 		list:function(search){
-		return $http.post(domain+"student/list.json",search);
+			return $http.post(domain+"student/list.json",search);
 		}
 	};
+	factory['Course'] = {
+		list:function(parentid){
+			return $http.post(domain+"course/parent/"+parentid+"/list.json");
+		}
+	}
 
 	return factory;
 });

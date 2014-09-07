@@ -146,14 +146,28 @@ class Faculty(models.Model):
 	qualification = models.CharField(max_length=200, null=True, blank=True)
 	experience = models.CharField(max_length=200, null=True, blank= True)
 
+	specialization = models.CharField(max_length=200, null=True, blank=True)
+	currentjob = models.CharField(max_length=200, null=True, blank=True)
+
 	address = models.CharField(max_length=200, null=True, blank=True)
 	email = models.EmailField(max_length=254, null=True, blank=True)
+	phone = models.CharField(max_length=10, null=True, blank=True)
+
+	sex = models.CharField(
+		max_length=1,
+		choices=(("M","Male"),("F","Female")),
+		null=True, blank=True
+	)
+	dob = models.DateField(null=True, blank=True)
+
+	twowheeler = models.NullBooleanField()
+	references = models.CharField(max_length=200, null=True, blank=True)
 
 	salaryquote = models.PositiveIntegerField(null=True, blank=True)
 	salaryquotetype = models.CharField(
-			max_length=1,
-			choices=(("H","Hourly"),("M","Monthly")),
-			null=True, blank=True
+		max_length=1,
+		choices=(("H","Hourly"),("M","Monthly")),
+		null=True, blank=True
 	)
 
 	def __unicode__(self):

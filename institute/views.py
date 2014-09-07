@@ -20,6 +20,27 @@ from institute.models import Group
 #
 ###################################################
 
+def course_list(request, parentid):
+
+	parentid = int(parentid)
+
+	try:
+		if parentid>0:
+			parent = Course.objects.filter(id=parentid)
+	except:
+		raise ValueError("Invalid parent course ID. Please provide number in [0,1,2...]")
+
+	if parentid==0:
+		courses = Course.objects.filter(parent__isnull=True)
+	elif parentid>0:
+		courses = Course.objects.filter(parent=parent)
+
+	data = []
+	for c in courses:
+		data.append({"name":c.name,"id":c.id})
+
+	return HttpResponse(json.dumps(data))
+
 def student_get(request, id):
 
 	data = {}
