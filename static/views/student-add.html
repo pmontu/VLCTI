@@ -6,8 +6,6 @@
 
 <span ng-show="stage==2">
 
-	{{user}}
-
 	<form class="form-horizontal" role="form" ng-submit="save()">
 
 		<div class="form-group form-group">
@@ -88,7 +86,7 @@
 <span ng-show="stage==3">
 	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
 		{{alert.msg}}
-		<button class="btn btn-link" type="button" ng-click="stage=1;selection()(alert.userid)">
+		<button class="btn btn-link" type="button" ng-click="openStudentDetails(alert.userid)">
 			<span class="glyphicon glyphicon-user"></span> {{alert.user}}
 		</button>
 	</alert>

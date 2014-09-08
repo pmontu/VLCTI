@@ -1,1 +1,106 @@
-{{student}}
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">{{student.name}} </h3>
+	</div>
+	<div class="panel-body">
+
+
+		<button type="button" class="btn btn-primary col-sm-offset-11" ng-click="parent=0">
+			<span class="glyphicon glyphicon-arrow-left"></span> Back
+		</button>
+
+		<form class="form-horizontal" role="form" ng-submit="save()">
+
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Roll Number</label>
+				<div class="col-sm-3">
+					<p class="form-control-static">{{student.id}}</p>
+				</div>
+			</div>
+
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Date of Birth</label>
+				<div class="col-sm-3">
+					<input type="date" class="form-control" ng-model="student.dob"/>
+				</div>
+			</div>
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-3">
+					<input type="email" class="form-control" ng-model="student.email"/>
+				</div>
+			</div>
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Phone</label>
+				<div class="col-sm-3">
+					<input type="text" maxlength="10" class="form-control" ng-model="student.phone"/>
+				</div>
+			</div>
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Address</label>
+				<div class="col-sm-3">
+					<input type="text" maxlength="200" class="form-control" ng-model="student.address"/>
+				</div>
+			</div>
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Institutiton</label>
+				<div class="col-sm-3">
+					<input type="text" maxlength="200" class="form-control" ng-model="student.institution"/>
+				</div>
+			</div>
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label">Course Enquired</label>
+				<div class="col-sm-3">
+					<select ng-model="student.course" ng-options="c.id as c.name for c in courses" class="form-control" >
+						<option value="">----</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label" for="formGroupInputSmall">Required Subjects</label>
+				<div class="col-sm-3">
+					<input type="text" maxlength="200" class="form-control" ng-model="student.subjects"/>
+				</div>
+			</div>
+
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label" for="formGroupInputSmall">Preferred Start Date</label>
+				<div class="col-sm-3">
+					<input type="date" class="form-control" ng-model="student.start"/>
+				</div>
+			</div>
+
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label" for="formGroupInputSmall">Parent</label>
+				<div class="col-sm-3">
+					<input type="text" maxlength="200" class="form-control" ng-model="student.parent"/>
+				</div>
+			</div>
+
+
+			<div class="form-group form-group">
+				<label class="col-sm-2 control-label" for="formGroupInputSmall">Parent Profession</label>
+				<div class="col-sm-3">
+					<input type="text" maxlength="200" class="form-control" ng-model="student.profession"/>
+				</div>
+			</div>
+
+			<button class="btn btn-primary col-sm-offset-2">
+				<span class="glyphicon glyphicon-floppy-disk"></span> Update
+			</button>
+
+		</form>
+
+	</div>
+</div>

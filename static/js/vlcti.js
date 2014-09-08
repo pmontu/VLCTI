@@ -13,8 +13,17 @@ app.config(function($routeProvider,$httpProvider){
 app.directive("studentdetails",function(){
 	return {
 		restrict:"E",
+		scope:{
+			id:"=ngModel",
+			parent:"=stage"
+		},
 		templateUrl:"views/student-details.html",
 		controller:function($scope, instituteFactory){
+
+			instituteFactory.Course.list().success(function(data){
+				$scope.courses = data;
+			});
+
 			$scope.load = function(studentid){
 				instituteFactory.Student.get(studentid).success(function(data){
 					$scope.student = data;
@@ -23,9 +32,10 @@ app.directive("studentdetails",function(){
 			
 		},
 		link:function(scope, element, attrs){
-			scope.$watch(attrs.id,function(value){
-				if(!angular.isUndefined(value))
-					scope.load(value);
+			scope.$watch('id',function(id){
+				if(!angular.isUndefined(id)){
+					scope.load(id);
+				}
 			});
 		}
 	};
@@ -47,11 +57,18 @@ app.directive("addstudent",function(){
 			});
 
 			$scope.save = function(){
+
+				instituteFactory.Student.post($scope.user).success(function(userid){
+
 				$scope.stage=3;
 				$scope.alerts.push({
 					msg:'Successfully added.',
-					type:"success", user:"Manoj Kumar P",
-					userid:1
+					type:"success", user:$scope.user.name,
+					userid:userid
+				});
+
+				}).error(function(status){
+
 				});
 			};
 
@@ -61,6 +78,10 @@ app.directive("addstudent",function(){
 					$scope.stage=1;
 					$scope.fun()(0);
 				}
+			}
+			$scope.openStudentDetails = function(msg){
+				$scope.stage=1;
+				$scope.selection()(msg);
 			}
 
  		},
@@ -170,6 +191,9 @@ app.factory('instituteFactory', function($http){
 		},
 		list:function(search){
 			return $http.post(domain+"student/list.json",search);
+		},
+		post:function(data){
+			return $http.post(domain+"student/post.json",data);
 		}
 	};
 	factory['Course'] = {

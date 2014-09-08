@@ -3,6 +3,7 @@ from django.http import HttpResponse, QueryDict
 from django.core import serializers
 
 import json
+import re
 
 from institute.models import Student
 from institute.models import Course
@@ -31,7 +32,30 @@ def course_list(request):
 			pid = c.parent.id
 		data.append({"name":c.__unicode__(),"id":c.id,"parentid":pid})
 
-	return HttpResponse(json.dumps(data))
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+def student_post(request):
+
+	j = json.loads(request.body)
+
+	if "name" not in j:
+		raise KeyError("Student name missing, It is a required field")
+	if not re.match('^([a-zA-Z ]+)$',j["name"]):
+		raise ValueError("Student name must contains alphabets and spaces only")
+
+	s = Student(
+		name = j["name"],
+		dob = j["dob"] if "dob" in j else None,
+		email = j["email"] if "email" in j else None,
+		phone = j["phone"] if "phone" in j else None,
+		address = j["address"] if "address" in j else None,
+		institution = j["institution"] if "institution" in j else None,
+		enquiredsubjects = j["subjects"] if "subjects" in j else None,
+		enquiredstartdate = j["start"] if "start" in j else None,
+		enquiredcourse = Course.objects.get(id = j["course"]) if "course" in j and Course.objects.filter(id=j["course"]).count() == 1 else None
+		)
+	s.save()
+	return HttpResponse(json.dumps(s.id), mimetype="application/json")
 
 def student_get(request, id):
 
@@ -42,56 +66,22 @@ def student_get(request, id):
 	except:
 		raise Exception("Invalid Student ID")
 
-	data["details"]={
+	data={
 		"name":s.name,
 		"id":s.id,
 		"dob":str(s.dob),
-		"contact":{
-			"email":s.email,
-			"phone":s.phone,
-			"address":s.address
-		},
+		"email":s.email,
+		"phone":s.phone,
+		"address":s.address,
 		"institution":s.institution,
-		"enquiry":{
-			"course":s.enquiredcourse.name,
-			"subjects":s.enquiredsubjects,
-			"start":str(s.enquiredstartdate)
-		},
-		"parent":{
-			"name":s.parent,
-			"info":s.parentinfo
-		}
+		"course":s.enquiredcourse.id if s.enquiredcourse <> None else None,
+		"subjects":s.enquiredsubjects,
+		"start":str(s.enquiredstartdate),
+		"parent":s.parent,
+		"profession":s.parentinfo
 	}
 
-	contracts = Contract.objects.filter(student = s)
-	data["contracts"] = []
-	for c in contracts:
-
-		subjects = Link.objects.select_related().filter(contract = c)
-		subs = []
-		for s in subjects:
-			subs.append({
-					"type":s.group.get_mode_display(),
-					"name":s.group.course.name,
-					"id":s.group.course.id,
-					"faculty":{
-						"name":s.group.facultycontract.faculty.name,
-						"id":s.group.facultycontract.faculty.id
-					}
-				})
-
-		data["contracts"].append({
-				"joiningdate":str(c.joiningdate),
-				"hours":c.hours,
-				"amount":c.amount,
-				"mode":c.get_mode_display(),
-				"instalments":c.instalments,
-				"id":c.id,
-				"subjects":subs
-			})
-
-
-	return HttpResponse(json.dumps(data))
+	return HttpResponse(json.dumps(data), mimetype="application/json")
 
 
 
