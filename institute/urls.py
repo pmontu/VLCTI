@@ -8,4 +8,5 @@ urlpatterns = patterns (
 	url(r'^student/(\d+)/get\.json$',views.student_get),
 	url(r'^course/list\.json$',views.course_list),
 	url(r'^student/post\.json$',views.student_post),
+	url(r'^student/update\.json$',views.student_update),
 	)

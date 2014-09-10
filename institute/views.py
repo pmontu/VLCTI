@@ -4,6 +4,7 @@ from django.core import serializers
 
 import json
 import re
+from datetime import date
 
 from institute.models import Student
 from institute.models import Course
@@ -54,6 +55,40 @@ def student_post(request):
 		enquiredstartdate = j["start"] if "start" in j else None,
 		enquiredcourse = Course.objects.get(id = j["course"]) if "course" in j and Course.objects.filter(id=j["course"]).count() == 1 else None
 		)
+	s.save()
+	return HttpResponse(json.dumps(s.id), mimetype="application/json")
+
+def student_update(request):
+
+	j = json.loads(request.body)
+
+	if "id" not in j:
+		raise KeyError("Need id to update student, It is a required field")
+	if not isinstance(j["id"],(int,long)) or not int(j["id"]) > 0:
+		raise KeyError("Invalid Id, required integer not less than 1")
+
+	if "name" not in j:
+		raise KeyError("Student name missing, It is a required field")
+	if not re.match('^([a-zA-Z ]+)$',j["name"]):
+		raise ValueError("Student name must contains alphabets and spaces only")
+
+	try:
+		s = Student.objects.get(id = int(j["id"]))
+	except:
+		raise Exception("Error retrieving details from id")
+
+	s.name = j["name"]
+	s.dob = j["dob"] if "dob" in j and j["dob"] <> "" else None
+	s.email = j["email"] if "email" in j else None
+	s.phone = j["phone"] if "phone" in j else None
+	s.address = j["address"] if "address" in j else None
+	s.institution = j["institution"] if "institution" in j else None
+	s.enquiredsubjects = j["subjects"] if "subjects" in j else None
+	s.enquiredstartdate = j["start"] if "start" in j and j["start"] <> "" else None
+	s.enquiredcourse = Course.objects.get(id = j["course"]) if "course" in j and Course.objects.filter(id=j["course"]).count() == 1 else None
+	s.parent = j["parent"] if "parent" in j else None
+	s.parentinfo = j["profession"] if "profession" in j else None
+
 	s.save()
 	return HttpResponse(json.dumps(s.id), mimetype="application/json")
 
@@ -196,7 +231,7 @@ def student_list(request):
 		studentModels = Student.objects.all().order_by(ob)[s:e]
 		l = Student.objects.all().count()
 
-
+	t = Student.objects.all().count()
 
 
 	#	RESPONSE
@@ -204,13 +239,17 @@ def student_list(request):
 	for s in studentModels:
 		d = {
 			"id":s.id,
-			"name":s.name
+			"name":s.name,
+			"email":s.email,
+			"phone":s.phone,
+			"age":date.today().year - s.dob.year if s.dob and date.today() > s.dob else None
 		}
 		students.append(d)
 
 	studentsData={
 		"students":students,
-		"totallength":l
+		"queryresultsetlength":l,
+		"totallength":t
 	}
 	jsonData = json.dumps(studentsData)
 	return HttpResponse(jsonData,mimetype="application/json")

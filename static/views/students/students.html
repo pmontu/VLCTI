@@ -1,0 +1,91 @@
+<div class="container">
+
+	<h1>
+		<span class="glyphicon glyphicon-user"></span> Students
+	</h1>
+
+	<div class="row">
+		<div class="col-lg-6">
+
+			<button class="btn btn-default btn-lg" ng-click="changeDisplayMode(DisplayModeEnum.Card)">
+				<span class="glyphicon glyphicon-th-large"></span> Card View
+			</button>
+
+			<button class="btn btn-default btn-lg" ng-click="changeDisplayMode(DisplayModeEnum.List)">
+				<span class="glyphicon glyphicon-list"></span> List View
+			</button>
+
+			<a class="btn btn-default btn-lg" href="#/studentadd">
+				<span class="glyphicon glyphicon-plus"></span> Add Student
+			</a>
+
+		</div>
+		<div class="col-lg-1">
+			<h4>Filters:</h4>
+		</div>
+		<div class="col-lg-5">
+			<div class="form-inline">
+
+				<input class="form-control" type="text" ng-model="search.name" ng-change="filter()" placeholder="Name" />
+				
+				<input class="form-control" type="number" min="1" ng-model="search.id" ng-change="filter()" placeholder="ID" />
+
+				<button class="btn btn-default" ng-click="reload()">
+					<span class="glyphicon glyphicon-refresh"></span>
+				</button>
+
+			</div>
+		</div>
+	</div>
+	<br/></br>
+
+	<div class="row" ng-show="listDisplayModeEnabled">
+		<div class="col-sm-12">
+
+			<table class="table table-striped">
+				<tr class="active">
+					<th><button ng-click="orderByStudents(column.id, sortDirection=!sortDirection)" class="btn btn-link btn-lg">ID</button></th>
+					<th><button ng-click="orderByStudents(column.name, sortDirection=!sortDirection)" class="btn btn-link btn-lg">Name</button></th>
+				</tr>
+				<tr ng-repeat="s in students">
+					<td>{{s.id}}</td>
+					<td>{{s.name}}</td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+
+	<div ng-hide="listDisplayModeEnabled" class="row">
+		<div class="col-lg-3" ng-repeat="s in students">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="panel-title">
+						<a href="#/student/{{s.id}}">{{s.name}}</a>
+					</h2>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-3">
+						<h2><span class="glyphicon glyphicon-user"></span></h2>
+					</div>
+					<div class="col-lg-9">
+						<div>{{s.email}}</div>
+						<div>{{s.phone}}</div>
+						<div>{{s.age}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		
+		<pagination direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="load()" max-size="maxSize" items-per-page="itemsPerPage"></pagination>
+		
+	</div>
+
+	<div class="row">
+		showing {{students.length}} of {{total}} total stude
+	</div>
+
+</div>
