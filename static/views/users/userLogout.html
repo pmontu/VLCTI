@@ -1,0 +1,9 @@
+<div class="container">
+
+	<br/><br/><br/><br/>
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);" class="col-sm-6 col-sm-offset-3">
+		{{alert.msg}}
+	</alert>
+
+</div>

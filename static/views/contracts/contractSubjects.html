@@ -1,0 +1,62 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+	</alert>
+
+</div>
+
+<div class="container" ng-show="validContractId">
+
+	<h1>
+		<span class="glyphicon glyphicon-book"></span> Subjects
+	</h1>
+
+	<h3>
+		<a href="#/student/{{student.id}}/edit">{{student.name}}</a>
+	</h3>
+	
+	<div>Age: {{student.age || "-"}}</div>
+	<div>Email: {{student.email || "-"}}</div>
+	<div>Phone: {{student.phone || "-"}}</div>
+
+	<h3>
+		Contract <a href="#/contract/{{contract.id}}/edit">#{{contract.id}}</a>
+	</h3>
+	
+	<div>Joining Date: {{contract.join | date}}</div>
+	<div>Amount: {{contract.amount | currency:"₹"}}</div>
+	<div>Hours: {{contract.hours}}</div>
+	<br/><br/>
+
+	<table class="table table-striped">
+		<tr>
+			<th>#</th>
+			<th>Subject</th>
+			<th>Faculty</th>
+			<th>Type</th>
+			<th>Timing</th>
+			<th>From</th>
+			<th>To</th>
+			<th>Actions</th>
+		</tr>
+		<tr ng-repeat="subject in subjects" ng-class="{success:subject.to, warning:(!subject.from && !subject.to)}">
+			<td>{{$index+1}}</td>
+			<td>{{subject.subject}}</td>
+			<td>{{subject.faculty || "-"}}</td>
+			<td>{{subject.type || "-"}}</td>
+			<td>{{subject.start}} - {{subject.end}}</td>
+			<td>{{(subject.from | date) || "-"}}</td>
+			<td>{{(subject.to | date) || "-"}}</td>
+			<td>
+				<a href="#/subject/{{subject.id}}/edit" class="btn btn-link"> 
+					<span class="glyphicon glyphicon-edit"></span> Edit
+				</a>
+		</tr>
+	</table>
+
+
+
+</div>

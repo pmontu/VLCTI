@@ -1,0 +1,90 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+	</alert>
+
+</div>
+
+<div class="container" ng-show="validContractId">
+
+	<h1>
+		<span class="glyphicon glyphicon-edit"></span> Edit Contract
+	</h1>
+
+	<h3>
+		<a href="#/student/{{student.id}}/edit">{{student.name}}</a>
+		(<a href="#/contract/{{contract.id}}/subjects">View Subjects</a>)
+	</h3>
+	
+	<div>Age: {{student.age || "-"}}</div>
+	<div>Email: {{student.email || "-"}}</div>
+	<div>Phone: {{student.phone || "-"}}</div>
+	<br/><br/>
+
+
+	<form class="form-horizontal" role="form" ng-submit="updateContract()">
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Joining Date</label>
+			<div class="col-sm-5">
+				<input type="date" class="form-control" ng-model="contract.join" required readonly/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Payment Mode</label>
+			<div class="col-sm-5">
+				<select ng-model="contract.mode" class="form-control" required readonly>
+					<option value="">----</option>
+					<option value="I">Installments</option>
+					<option value="M">Monthly</option>
+					<option value="Y">Yearly</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg" ng-if="contract.mode=='I'">
+			<label class="col-sm-2 control-label">Installments</label>
+			<div class="col-sm-5">
+				<input type="number" min="1" max="24" class="form-control" ng-model="contract.instalments" required readonly/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Amount</label>
+			<div class="col-sm-5">
+				<div class="input-group">
+					<span class="input-group-addon">₹</span>
+					<input type="number" min="0" class="form-control" ng-model="contract.amount" required readonly>
+				</div>
+			</div>
+		</div>
+
+		
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Hours</label>
+			<div class="col-sm-5">
+				<input type="number" min="1" class="form-control" ng-model="contract.hours" required readonly>
+			</div>
+		</div>
+
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Leaving Date</label>
+			<div class="col-sm-5">
+				<input type="date" min="{{contract.join|date:'yyyy-MM-dd'}}" class="form-control" ng-model="contract.leave" required/>
+			</div>
+		</div>
+
+
+		<button class="btn btn-primary btn-lg col-sm-offset-2">
+			<span class="glyphicon glyphicon-floppy-disk"></span> Update
+		</button>
+
+	</form>
+
+
+</div>

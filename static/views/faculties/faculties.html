@@ -1,0 +1,138 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<h1>
+		<span class="glyphicon glyphicon-user"></span> Faculties
+	</h1>
+
+	<div class="row">
+		<div class="col-lg-6">
+
+			<button class="btn btn-default btn-lg" ng-click="changeDisplayMode(DisplayModeEnum.Card)">
+				<span class="glyphicon glyphicon-th-large"></span> Card View
+			</button>
+
+			<button class="btn btn-default btn-lg" ng-click="changeDisplayMode(DisplayModeEnum.List)">
+				<span class="glyphicon glyphicon-list"></span> List View
+			</button>
+
+			<a class="btn btn-default btn-lg" href="#/faculty/add">
+				<span class="glyphicon glyphicon-plus"></span> Add Faculty
+			</a>
+
+		</div>
+		<div class="form-horizontal col-lg-6">
+			
+			<div class="form-group form-group-sm">
+
+				<label class="control-label col-lg-6">Filters</label>
+				<div class="col-lg-6">
+					<input class="form-control" type="text" ng-model="search.name" ng-change="filter()" placeholder="Name" />
+				</div>
+
+			</div>
+
+			<div class="form-group form-group-sm">
+
+				<div class="col-lg-offset-6 col-lg-6">
+					<select class="form-control" ng-model="search.circle" ng-options="c.id as c.name for c in circles" class="form-control" ng-change="filter()">
+						<option value="">-Circle-</option>
+					</select>
+				</div>
+
+			</div>
+
+			<div class="form-group form-group-sm">
+
+				<div class="col-lg-offset-6 col-lg-6">
+					<input class="form-control" type="number" min="1" ng-model="search.id" ng-change="filter()" placeholder="ID" />
+				</div>
+
+			</div>
+
+			<div class="form-group form-group-sm">
+
+				<div class="col-lg-offset-6 col-lg-6">
+					<select class="form-control" ng-change="filter()" ng-model="search.sex">
+						<option value="">Sex</option>
+						<option value="M">Male</option>
+						<option value="F">Female</option>
+					</select>
+				</div>
+
+			</div>
+
+
+			<button class="btn btn-default col-lg-offset-11" ng-click="reload()">
+				<span class="glyphicon glyphicon-refresh"></span>
+			</button>
+
+		</div>
+	</div>
+	<br/></br>
+
+	<div class="row" ng-show="listDisplayModeEnabled">
+		<div class="col-sm-12">
+
+			<table class="table table-striped">
+				<tr class="active">
+					<th><button ng-click="orderByStudents(SortByColumnEnum.id);sortDirection=!sortDirection" class="btn btn-link btn-lg">ID</button></th>
+					<th><button ng-click="orderByStudents(SortByColumnEnum.name);sortDirection=!sortDirection" class="btn btn-link btn-lg">Name</button></th>
+					<th>Qualification</th>
+					<th>Experience</th>
+					<th>Age</th>
+					<th>Phone</th>
+					<th>Circle</th>
+					<th>Actions</th>
+				</tr>
+				<tr ng-repeat="f in faculties">
+					<td>{{f.id}}</td>
+					<td>{{f.name}}</td>
+					<td>{{f.qualification}}</td>
+					<td>{{f.experience}}</td>
+					<td>{{f.age}}</td>
+					<td>{{f.phone}}</td>
+					<td>{{f.circle}}</td>
+					<td>
+						<a type="button" class="btn btn-link" href="#/faculty/{{f.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+					</td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+
+	<div ng-hide="listDisplayModeEnabled" class="row">
+		<div class="col-lg-3" ng-repeat="f in faculties">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="panel-title">
+						<a href="#/faculty/{{f.id}}/edit">{{f.name}}</a>
+					</h2>
+				</div>
+				<div class="panel-body">
+					<div class="col-lg-3">
+						<h2><span class="glyphicon glyphicon-user"></span></h2>
+					</div>
+					<div class="col-lg-9">
+						<div>{{f.email}}</div>
+						<div>{{f.phone}}</div>
+						<div>{{f.circle}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		
+		<pagination direction-links="true" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="load()" max-size="maxSize" items-per-page="itemsPerPage"></pagination>
+		
+	</div>
+
+	<div class="row">
+		showing {{faculties.length}} of {{total}} total faculties
+	</div>
+
+</div>

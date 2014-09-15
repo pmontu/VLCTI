@@ -1,0 +1,51 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+	</alert>
+
+</div>
+
+<div class="container" ng-show="validStudentId">
+
+	<h1>
+		<span class="glyphicon glyphicon-folder-open"></span> Faculty Agreements
+	</h1>
+	<h3>
+		Agreements for <a href="#/faculty/{{faculty.id}}/edit">{{faculty.name}}</a>
+	</h3>
+	<div>Age: {{faculty.age || "-"}}</div>
+	<div>Email: {{faculty.email || "-"}}</div>
+	<div>Phone: {{faculty.phone || "-"}}</div>
+	<br/><br/>
+	
+	<a class="btn btn-default btn-lg" href="#/faculty/{{faculty.id}}/agreement/add">
+		<span class="glyphicon glyphicon-plus"></span> Add Agreement
+	</a>
+	<br/><br/>
+
+	<table class="table table-striped">
+		<tr>
+			<th>#</th>
+			<th>Mode</th>
+			<th>Salary</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Actions</th>
+		</tr>
+		<tr ng-repeat="agreement in agreements" ng-class="{success:agreement.enddate, warning:(!agreement.startdate && !agreement.enddate)}">
+			<td>{{$index+1}}</td>
+			<td>{{agreement.type}}</td>
+			<td>{{agreement.amount | currency:"₹"}}</td>
+			<td>{{agreement.startdate | date}}</td>
+			<td>{{(agreement.enddate | date) || "-"}}</td>
+			<td>
+				<a type="button" class="btn btn-link" href="#/agreement/{{agreement.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+			</td>
+		</tr>
+
+
+</div>
+

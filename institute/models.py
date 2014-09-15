@@ -1,4 +1,39 @@
 from django.db import models
+from datetime import date
+
+
+#
+#
+#
+#	COURSE
+#
+#
+#
+
+
+
+class Course(models.Model):
+	name = models.CharField(max_length=200)
+	parent = models.ForeignKey('Course', null=True, blank=True)
+	def __unicode__(self):
+		if self.parent <> None:
+			return "%s < %s" % (self.name, self.parent)
+		return self.name
+	class Meta:
+		ordering = ('id',)
+		unique_together = ('name','parent')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #
@@ -15,6 +50,8 @@ class Student(models.Model):
 
 	email = models.EmailField(max_length=254, null=True, blank=True)
 	phone = models.CharField(max_length=10, null=True, blank=True)
+	work = models.CharField(max_length=10, null=True, blank=True)
+	cell = models.CharField(max_length=10, null=True, blank=True)
 	address = models.CharField(max_length=200, null=True, blank=True)
 
 	institution = models.CharField(max_length=200, null=True, blank=True)
@@ -28,6 +65,8 @@ class Student(models.Model):
 
 	def __unicode__(self):
 		return self.name
+	def get_age(self):
+		return date.today().year - self.dob.year if self.dob <> None and date.today() >= self.dob else None
 	class Meta:
 		ordering = ('id',)
 
@@ -57,7 +96,7 @@ class Contract(models.Model):
 
 	leavingdate = models.DateField(null=True,blank=True)
 
-	courses = models.ManyToManyField('Group',through='Link')
+	courses = models.ManyToManyField('Group',through='Subject')
 
 	def __unicode__(self):
 		return "%s - \"%s\" %dhrs @ Rs%d (%s)" % (self.student , self.joiningdate, self.hours, self.amount, self.get_mode_display())
@@ -66,52 +105,23 @@ class Contract(models.Model):
 
 
 
+class Subject(models.Model):
+
+	contract = models.ForeignKey(Contract)
+	course = models.ForeignKey('Course')
+	group = models.ForeignKey('Group', null=True, blank=True)
+
+	joiningdate = models.DateField(null=True, blank=True)
+	leavingdate = models.DateField(null=True, blank=True)
 
 
-
-
-
-
-
-#
-#
-#
-#	COURSE
-#
-#
-#
-
-
-
-class Course(models.Model):
-	name = models.CharField(max_length=200)
-	parent = models.ForeignKey('Course', null=True, blank=True)
 	def __unicode__(self):
-		if self.parent <> None:
-			return "%s < %s" % (self.name, self.parent)
-		return self.name
+		return "%s , %s" % (self.contract, self.group)
 	class Meta:
-		ordering = ('id',)
-		unique_together = ('name','parent')
+		ordering=('id',)
 
 
 
-class Group(models.Model):
-
-	facultycontract = models.ForeignKey('FacultyContract')
-	course = models.ForeignKey(Course)
-
-	start = models.TimeField()
-	end = models.TimeField()
-
-	mode = models.CharField(
-		max_length=1,
-		choices=(("I","Individual"),("G","Group")),
-		null=True, blank=True
-	)
-
-	def __unicode__(self):
-		return u"%s: %s @ (%s-%s)" % (self.course, self.facultycontract, str(self.start), str(self.end))
 
 
 
@@ -160,6 +170,12 @@ class Faculty(models.Model):
 	)
 	dob = models.DateField(null=True, blank=True)
 
+	morningstart = models.TimeField(null=True, blank=True)
+	morningend = models.TimeField(null=True, blank=True)
+
+	eveningstart = models.TimeField(null=True, blank=True)
+	eveningend = models.TimeField(null=True, blank=True)
+
 	twowheeler = models.NullBooleanField()
 	references = models.CharField(max_length=200, null=True, blank=True)
 
@@ -172,6 +188,8 @@ class Faculty(models.Model):
 
 	def __unicode__(self):
 		return "%s %s" % (self.name, self.circle)
+	def get_age(self):
+		return date.today().year - self.dob.year if self.dob <> None and date.today() >= self.dob else None
 	class Meta:
 		ordering=('circle','name')
 
@@ -189,6 +207,22 @@ class FacultyContract(models.Model):
 	class Meta:
 		ordering = ('mode','faculty')
 
+class Group(models.Model):
+
+	facultycontract = models.ForeignKey('FacultyContract')
+	course = models.ForeignKey(Course)
+
+	start = models.TimeField()
+	end = models.TimeField()
+
+	mode = models.CharField(
+		max_length=1,
+		choices=(("I","Individual"),("G","Group"))
+	)
+
+	def __unicode__(self):
+		return u"%s: %s @ (%s-%s)" % (self.course, self.facultycontract, str(self.start), str(self.end))
+
 
 class Payment(models.Model):
 	amount = models.PositiveIntegerField()
@@ -199,23 +233,4 @@ class Payment(models.Model):
 		return "\"%s\" %s : Rs%d , %s" % (self.date, self.serial, self.amount, self.facultycontract)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-class Link(models.Model):
-	contract = models.ForeignKey(Contract)
-	group = models.ForeignKey(Group)
-	def __unicode__(self):
-		return "%s , %s" % (self.contract, self.group)
-	class Meta:
-		ordering=('id',)
 

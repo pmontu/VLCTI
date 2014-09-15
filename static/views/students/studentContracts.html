@@ -1,0 +1,55 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+	</alert>
+
+</div>
+
+<div class="container" ng-show="validStudentId">
+
+	<h1>
+		<span class="glyphicon glyphicon-folder-open"></span> Student Contracts
+	</h1>
+	<h3>
+		Contracts for <a href="#/student/{{student.id}}/edit">{{student.name}}</a>
+	</h3>
+	<div>Age: {{student.age || "-"}}</div>
+	<div>Email: {{student.email || "-"}}</div>
+	<div>Phone: {{student.phone || "-"}}</div>
+	<br/><br/>
+	
+	<a class="btn btn-default btn-lg" href="#/student/{{student.id}}/contract/add">
+		<span class="glyphicon glyphicon-plus"></span> Add Contract
+	</a>
+	<br/><br/>
+
+	<table class="table table-striped">
+		<tr>
+			<th>#</th>
+			<th>Joining Date</th>
+			<th>Installments</th>
+			<th>Mode</th>
+			<th>Amount</th>
+			<th>Hours</th>
+			<th>Leaving Date</th>
+			<th>Actions</th>
+		</tr>
+		<tr ng-repeat="contract in contracts" ng-class="{info:!contract.leave}">
+			<td>{{$index+1}}</td>
+			<td>{{contract.join | date}}</td>
+			<td>{{contract.instalments || "NA"}}</td>
+			<td>{{contract.mode}}</td>
+			<td>{{contract.amount | currency:"₹"}}</td>
+			<td>{{contract.hours}}</td>
+			<td>{{(contract.leave | date) || "-"}}</td>
+			<td>
+				<a type="button" class="btn btn-link" href="#/contract/{{contract.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+			</td>
+		</tr>
+
+
+</div>
+

@@ -1,0 +1,186 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+	</alert>
+
+</div>
+
+<div class="container" ng-show="validFacultyId">
+
+	<h1>
+		<span class="glyphicon glyphicon-edit"></span> Edit Faculty
+	</h1>
+
+	<h3>
+		{{faculty.name}} (<a href="#/faculty/{{faculty.id}}/agreements">View Agreements</a>)
+	</h3>
+
+	<form class="form-horizontal col-sm-7" role="form" ng-submit="updateFaculty()">
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Name</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.name" required/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Circle</label>
+			<div class="col-sm-9">
+				<select ng-model="faculty.circle" ng-options="c.id as c.name for c in circles" class="form-control" required>
+				</select>
+			</div>
+		</div>
+
+
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Sex</label>
+			<div class="col-sm-9">
+				<label class="radio-inline">
+					<input type="radio" ng-model="faculty.sex" value="M"/> Male
+				</label>
+				<label class="radio-inline">
+					<input type="radio" ng-model="faculty.sex" value="F"/> Female
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Date of Birth</label>
+			<div class="col-sm-9">
+				<input type="date" class="form-control" ng-model="faculty.dob"/>
+			</div>
+		</div>
+
+
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Email</label>
+			<div class="col-sm-9">
+				<input type="email" class="form-control" ng-model="faculty.email"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Phone</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="10" class="form-control" ng-model="faculty.phone"/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Address</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.address"/>
+			</div>
+		</div>
+
+
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Qualification</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.qual"/>
+			</div>
+		</div>
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Specialization</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.special"/>
+			</div>
+		</div>
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Work Experience</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.exp"/>
+			</div>
+		</div>
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Current Job</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.job"/>
+			</div>
+		</div>
+
+
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Morning Availablity</label>
+			<div class="col-sm-4">
+				<input type="time" class="form-control" ng-model="faculty.morningstart"/>
+			</div>
+			<div class="col-sm-1">
+				<label class="control-label">to</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="time" class="form-control" ng-model="faculty.morningend"/>
+			</div>
+		</div>
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Evening Availablity</label>
+			<div class="col-sm-4">
+				<input type="time" class="form-control" ng-model="faculty.eveningstart"/>
+			</div>
+			<div class="col-sm-1">
+				<label class="control-label">to</label>
+			</div>
+			<div class="col-sm-4">
+				<input type="time" class="form-control" ng-model="faculty.eveningend"/>
+			</div>
+		</div>
+
+
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Salary</label>
+			<div class="col-sm-9">
+				<label class="radio-inline">
+					<input type="radio" value="H" ng-model="faculty.mode"> Hourly
+				</label>
+				<label class="radio-inline">
+					<input type="radio" value="M" ng-model="faculty.mode"> Monthly
+				</label>
+			</div>
+		</div>
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">Amount</label>
+			<div class="col-sm-9">
+				<div class="input-group">
+					<span class="input-group-addon">₹</span>
+					<input type="number" min="0" class="form-control" ng-model="faculty.sal"/>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div class="form-group form-group">
+			<label class="col-sm-3 control-label">Transportation</label>
+			<div class="col-sm-9">
+				<label class="checkbox-inline">
+					<input type="checkbox" ng-model="faculty.bike"> Two Wheeler
+				</label>
+			</div>
+		</div>
+		<div class="form-group form-group-lg">
+			<label class="col-sm-3 control-label">References</label>
+			<div class="col-sm-9">
+				<input type="text" maxlength="200" class="form-control" ng-model="faculty.refer"/>
+			</div>
+		</div>
+
+
+		<button class="btn btn-primary btn-lg col-sm-offset-3">
+			<span class="glyphicon glyphicon-floppy-disk"></span> Update
+		</button>
+
+	</form>
+
+
+</div>
+

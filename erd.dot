@@ -1,6 +1,6 @@
 digraph model_graph {
   // Dotfile by Django-Extensions graph_models
-  // Created: 2014-09-06 16:10
+  // Created: 2014-09-15 11:48
   // Cli Options: institute
 
   fontname = "Helvetica"
@@ -20,6 +20,34 @@ digraph model_graph {
 
   // Labels
 
+
+  institute_models_Course [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+    <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4">
+    <FONT FACE="Helvetica Bold" COLOR="white">
+    Course
+    </FONT></TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica Bold">id</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica Bold">AutoField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica Bold">parent</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica Bold">ForeignKey (id)</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica ">name</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica ">CharField</FONT>
+    </TD></TR>
+  
+    </TABLE>
+    >]
 
   institute_models_Student [label=<
     <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
@@ -42,6 +70,12 @@ digraph model_graph {
   
     <TR><TD ALIGN="LEFT" BORDER="0">
     <FONT COLOR="#7B7B7B" FACE="Helvetica ">address</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">CharField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">cell</FONT>
     </TD><TD ALIGN="LEFT">
     <FONT COLOR="#7B7B7B" FACE="Helvetica ">CharField</FONT>
     </TD></TR>
@@ -96,6 +130,12 @@ digraph model_graph {
   
     <TR><TD ALIGN="LEFT" BORDER="0">
     <FONT COLOR="#7B7B7B" FACE="Helvetica ">phone</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">CharField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">work</FONT>
     </TD><TD ALIGN="LEFT">
     <FONT COLOR="#7B7B7B" FACE="Helvetica ">CharField</FONT>
     </TD></TR>
@@ -201,11 +241,11 @@ digraph model_graph {
     </TABLE>
     >]
 
-  institute_models_Course [label=<
+  institute_models_Subject [label=<
     <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4">
     <FONT FACE="Helvetica Bold" COLOR="white">
-    Course
+    Subject
     </FONT></TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
@@ -215,31 +255,9 @@ digraph model_graph {
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT COLOR="#7B7B7B" FACE="Helvetica Bold">parent</FONT>
+    <FONT FACE="Helvetica Bold">contract</FONT>
     </TD><TD ALIGN="LEFT">
-    <FONT COLOR="#7B7B7B" FACE="Helvetica Bold">ForeignKey (id)</FONT>
-    </TD></TR>
-  
-    <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica ">name</FONT>
-    </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica ">CharField</FONT>
-    </TD></TR>
-  
-    </TABLE>
-    >]
-
-  institute_models_Group [label=<
-    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
-    <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4">
-    <FONT FACE="Helvetica Bold" COLOR="white">
-    Group
-    </FONT></TD></TR>
-  
-    <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica Bold">id</FONT>
-    </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica Bold">AutoField</FONT>
+    <FONT FACE="Helvetica Bold">ForeignKey (id)</FONT>
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
@@ -249,27 +267,21 @@ digraph model_graph {
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica Bold">facultycontract</FONT>
+    <FONT COLOR="#7B7B7B" FACE="Helvetica Bold">group</FONT>
     </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica Bold">ForeignKey (id)</FONT>
+    <FONT COLOR="#7B7B7B" FACE="Helvetica Bold">ForeignKey (id)</FONT>
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica ">end</FONT>
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">joiningdate</FONT>
     </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica ">TimeField</FONT>
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">DateField</FONT>
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT COLOR="#7B7B7B" FACE="Helvetica ">mode</FONT>
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">leavingdate</FONT>
     </TD><TD ALIGN="LEFT">
-    <FONT COLOR="#7B7B7B" FACE="Helvetica ">CharField</FONT>
-    </TD></TR>
-  
-    <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica ">start</FONT>
-    </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica ">TimeField</FONT>
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">DateField</FONT>
     </TD></TR>
   
     </TABLE>
@@ -341,9 +353,33 @@ digraph model_graph {
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">eveningend</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">TimeField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">eveningstart</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">TimeField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
     <FONT COLOR="#7B7B7B" FACE="Helvetica ">experience</FONT>
     </TD><TD ALIGN="LEFT">
     <FONT COLOR="#7B7B7B" FACE="Helvetica ">CharField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">morningend</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">TimeField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">morningstart</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT COLOR="#7B7B7B" FACE="Helvetica ">TimeField</FONT>
     </TD></TR>
   
     <TR><TD ALIGN="LEFT" BORDER="0">
@@ -449,6 +485,52 @@ digraph model_graph {
     </TABLE>
     >]
 
+  institute_models_Group [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+    <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4">
+    <FONT FACE="Helvetica Bold" COLOR="white">
+    Group
+    </FONT></TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica Bold">id</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica Bold">AutoField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica Bold">course</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica Bold">ForeignKey (id)</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica Bold">facultycontract</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica Bold">ForeignKey (id)</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica ">end</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica ">TimeField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica ">mode</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica ">CharField</FONT>
+    </TD></TR>
+  
+    <TR><TD ALIGN="LEFT" BORDER="0">
+    <FONT FACE="Helvetica ">start</FONT>
+    </TD><TD ALIGN="LEFT">
+    <FONT FACE="Helvetica ">TimeField</FONT>
+    </TD></TR>
+  
+    </TABLE>
+    >]
+
   institute_models_Payment [label=<
     <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4">
@@ -489,38 +571,13 @@ digraph model_graph {
     </TABLE>
     >]
 
-  institute_models_Link [label=<
-    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
-    <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4">
-    <FONT FACE="Helvetica Bold" COLOR="white">
-    Link
-    </FONT></TD></TR>
-  
-    <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica Bold">id</FONT>
-    </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica Bold">AutoField</FONT>
-    </TD></TR>
-  
-    <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica Bold">contract</FONT>
-    </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica Bold">ForeignKey (id)</FONT>
-    </TD></TR>
-  
-    <TR><TD ALIGN="LEFT" BORDER="0">
-    <FONT FACE="Helvetica Bold">group</FONT>
-    </TD><TD ALIGN="LEFT">
-    <FONT FACE="Helvetica Bold">ForeignKey (id)</FONT>
-    </TD></TR>
-  
-    </TABLE>
-    >]
-
 
 
 
   // Relations
+
+  institute_models_Course -> institute_models_Course
+  [label="parent (course)"] [arrowhead=none, arrowtail=dot, dir=both];
 
   institute_models_Student -> institute_models_Course
   [label="enquiredcourse (student)"] [arrowhead=none, arrowtail=dot, dir=both];
@@ -531,14 +588,14 @@ digraph model_graph {
   institute_models_Contract -> institute_models_Student
   [label="student (contract)"] [arrowhead=none, arrowtail=dot, dir=both];
 
-  institute_models_Course -> institute_models_Course
-  [label="parent (course)"] [arrowhead=none, arrowtail=dot, dir=both];
+  institute_models_Subject -> institute_models_Contract
+  [label="contract (subject)"] [arrowhead=none, arrowtail=dot, dir=both];
 
-  institute_models_Group -> institute_models_FacultyContract
-  [label="facultycontract (group)"] [arrowhead=none, arrowtail=dot, dir=both];
+  institute_models_Subject -> institute_models_Course
+  [label="course (subject)"] [arrowhead=none, arrowtail=dot, dir=both];
 
-  institute_models_Group -> institute_models_Course
-  [label="course (group)"] [arrowhead=none, arrowtail=dot, dir=both];
+  institute_models_Subject -> institute_models_Group
+  [label="group (subject)"] [arrowhead=none, arrowtail=dot, dir=both];
 
   institute_models_Faculty -> institute_models_Circle
   [label="circle (faculty)"] [arrowhead=none, arrowtail=dot, dir=both];
@@ -546,14 +603,14 @@ digraph model_graph {
   institute_models_FacultyContract -> institute_models_Faculty
   [label="faculty (facultycontract)"] [arrowhead=none, arrowtail=dot, dir=both];
 
+  institute_models_Group -> institute_models_FacultyContract
+  [label="facultycontract (group)"] [arrowhead=none, arrowtail=dot, dir=both];
+
+  institute_models_Group -> institute_models_Course
+  [label="course (group)"] [arrowhead=none, arrowtail=dot, dir=both];
+
   institute_models_Payment -> institute_models_FacultyContract
   [label="facultycontract (payment)"] [arrowhead=none, arrowtail=dot, dir=both];
-
-  institute_models_Link -> institute_models_Contract
-  [label="contract (link)"] [arrowhead=none, arrowtail=dot, dir=both];
-
-  institute_models_Link -> institute_models_Group
-  [label="group (link)"] [arrowhead=none, arrowtail=dot, dir=both];
 
 }
 

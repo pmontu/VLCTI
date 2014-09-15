@@ -27,6 +27,8 @@ angular.module("vlctiApp").controller("studentAddController",
 					studentId:data
 				});
 
+				$scope.student={};
+
 
 			}).error(function(data, status){
 				$scope.alerts.push({type:"danger", msg:"Error: "+status});

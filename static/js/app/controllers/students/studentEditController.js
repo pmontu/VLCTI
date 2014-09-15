@@ -6,16 +6,16 @@ angular.module("vlctiApp").controller("studentEditController",
 
 		function init(){
 
-			instituteFactory.Student.get($scope.id).success(function(data){
-				$scope.student = data;
+			instituteFactory.Student.get($scope.id).success(function(Student){
+				$scope.student = Student;
 				$scope.validStudentId = true;
 			}).error(function(status){
 				$scope.validStudentId = false;
 				$scope.alerts.push({type:"danger", msg:"Error obtaining details for Id: "+$scope.id});
 			});
 
-			instituteFactory.Course.list().success(function(data){
-				$scope.courses = data;
+			instituteFactory.Course.list().success(function(Courses){
+				$scope.courses = Courses;
 			}).error(function(status){
 				$scope.alerts.push({type:"warning", msg:"Unable to obtain list of courses"});
 			});
@@ -28,8 +28,8 @@ angular.module("vlctiApp").controller("studentEditController",
 
 		$scope.updateStudent = function(){
 
-			instituteFactory.Student.update($scope.student).success(function(data){
-				$scope.alerts.push({type:"success", msg:"Updated successfully: "+data})
+			instituteFactory.Student.update($scope.student).success(function(studentId){
+				$scope.alerts.push({type:"success", msg:"Updated successfully student id #"+studentId})
 
 			}).error(function(data, status){
 				$scope.alerts.push({type:"danger", msg:"Error: "+status});
