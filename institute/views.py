@@ -19,6 +19,13 @@ from institute.models import Receipt
 from institute.models import Payment
 from institute.models import Group
 
+def login_required(fun):
+	def decoration(*args, **kwargs):
+		if not args[0].user.is_authenticated():
+			raise Exception("Please Login ")
+		return fun(*args, **kwargs)
+	return decoration
+
 def user_info(request):
 
 	user = request.user
@@ -32,6 +39,7 @@ def user_info(request):
 
 	return HttpResponse(json.dumps(data), mimetype="application/json")
 
+@login_required
 def user_logout(request):
 	logout(request)
 
@@ -49,12 +57,48 @@ def user_login(request):
 
 	return HttpResponse(user.id, mimetype="application/json")
 
-def login_required(fun):
-	def decoration(*args, **kwargs):
-		if not args[0].user.is_authenticated():
-			raise Exception("Please Login ")
-		return fun(*args, **kwargs)
-	return decoration
+@login_required
+def group_post(request):
+
+	j = json.loads(request.body)
+
+	g = Group()
+	g.facultycontract = FacultyContract.objects.get(id = j["agreementId"])
+	g.course = Course.objects.get(id = j["subject"])
+	g.start = j["start"]
+	g.end = j["end"]
+	g.mode = j["mode"]
+	g.save()
+
+	return HttpResponse(json.dumps(g.id), mimetype="application/json")
+
+@login_required
+def group_update(request):
+
+	j = json.loads(request.body)
+
+	g = Group.objects.get(id = j["id"])
+	g.save()
+
+	return HttpResponse(json.dumps(g.id), mimetype="application/json")
+
+@login_required
+def group_get(request, id):
+
+	g = Group.objects.select_related("FacultyContract__Faculty", "Course", "Course__Course").get(id = id)
+
+	data = {
+		"id":g.id,
+		"subject":g.course.id,
+		"course":g.course.parent.id if g.course.parent <> None else None,
+		"agreementId":g.facultycontract.id,
+		"start":time.strftime(g.start, "%H:%M"),
+		"end":time.strftime(g.end, "%H:%M"),
+		"mode":g.mode
+	}
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
 
 @login_required
 def agreement_post(request):
@@ -443,14 +487,28 @@ def contract_post(request):
 @login_required
 def course_list(request):
 
-	courses = Course.objects.select_related('Course').all()
+	courses = Course.objects.select_related('Course').filter(parent = None)
 
 	data = []
 	for c in courses:
-		pid=None
-		if c.parent is not None:
-			pid = c.parent.id
-		data.append({"name":c.__unicode__(),"id":c.id,"parentid":pid})
+		data.append({
+			"name":c.name,
+			"id":c.id
+		})
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
+def course_subjects(request, id):
+
+	subjects = Course.objects.filter(parent = Course.objects.get(id = id))
+
+	data = []
+	for s in subjects:
+		data.append({
+			"name":s.name,
+			"id":s.id
+		})
 
 	return HttpResponse(json.dumps(data), mimetype="application/json")
 

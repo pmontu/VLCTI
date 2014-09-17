@@ -1,5 +1,5 @@
 angular.module("vlctiApp").controller("studentAddController",
-	function($scope, instituteFactory){
+	function($scope, instituteFactory, $location){
 		
 		$scope.alerts= [];
 
@@ -19,13 +19,15 @@ angular.module("vlctiApp").controller("studentAddController",
 
 		$scope.addStudent = function(){
 
-			instituteFactory.Student.post($scope.student).success(function(data){
+			instituteFactory.Student.post($scope.student).success(function(studentId){
 				$scope.alerts.push({
 					type:"success",
 					msg:"Successfully added user",
 					studentName:$scope.student.name,
-					studentId:data
+					studentId:studentId
 				});
+
+				$location.path("/student/"+studentId+"/contract/add");
 
 				$scope.student={};
 

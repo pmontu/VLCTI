@@ -1,5 +1,5 @@
 angular.module("vlctiApp").controller("facultyAddController",
-	function($scope, instituteFactory, $routeParams){
+	function($scope, instituteFactory, $routeParams, $location){
 		
 		$scope.alerts= [];
 
@@ -17,13 +17,16 @@ angular.module("vlctiApp").controller("facultyAddController",
 
 		$scope.saveFaculty = function(){
 
-			instituteFactory.Faculty.post($scope.faculty).success(function(Id){
+			instituteFactory.Faculty.post($scope.faculty).success(function(facultyId){
 				$scope.alerts.push({
 					type:"success",
 					msg:"Successfully Added.",
 					facultyName:$scope.faculty.name,
-					facultyId:Id
-				})
+					facultyId:facultyId
+				});
+
+				$location.path("/faculty/"+facultyId+"/agreement/add");
+
 				$scope.faculty = {};
 
 			}).error(function(data, status){

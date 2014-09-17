@@ -67,6 +67,14 @@ app.config(function($routeProvider,$httpProvider){
 		}).when('/user/logout',{
 			controller: "userLogoutController",
 			templateUrl: "views/users/userLogout.html"
+
+
+		}).when('/agreement/:agreementId/group/add',{
+			controller: "groupAddController",
+			templateUrl: "views/groups/groupAdd.html"
+		}).when('/group/:groupId/edit',{
+			controller: "groupEditController",
+			templateUrl: "views/groups/groupEdit.html"
 		});
 });
 
@@ -76,7 +84,7 @@ app.config(function($routeProvider,$httpProvider){
 app.factory('instituteFactory', function($http){
 
 	var factory = {};
-	var domain = "http://127.0.0.1:12346/institute/";
+	var domain = "http://127.0.0.1:12345/institute/";
 
 	factory['Student'] = {
 		get:function(id){
@@ -98,6 +106,9 @@ app.factory('instituteFactory', function($http){
 	factory['Course'] = {
 		list:function(){
 			return $http.post(domain+"course/list.json");
+		},
+		subjects:function(Id){
+			return $http.get(domain+"course/"+Id+"/subjects.json");
 		}
 	};
 	factory['Contract'] = {
@@ -143,6 +154,17 @@ app.factory('instituteFactory', function($http){
 		},
 		groups:function(Id){
 			return $http.get(domain+"agreement/"+Id+"/groups.json");
+		}
+	}
+	factory['Group'] = {
+		post:function(Data){
+			return $http.post(domain+"group/post.json",Data);
+		},
+		update:function(Data){
+			return $http.post(domain+"group/update.json",Data);
+		},
+		get:function(Id){
+			return $http.get(domain+"group/"+Id+"/get.json");
 		}
 	}
 	factory['Circle'] = {

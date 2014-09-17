@@ -1,11 +1,4 @@
 angular.module("vlctiApp").controller("studentsController",function($scope, instituteFactory){
-	//	SETTINGS
-	$scope.stage = 1;
-
-	$scope.search = {};
-	$scope.column = {name:"name",id:"id"};
-    $scope.itemsPerPage = 10;
-    $scope.maxSize = 5;
 
     $scope.DisplayModeEnum = {
     	Card:0,
@@ -78,6 +71,14 @@ angular.module("vlctiApp").controller("studentsController",function($scope, inst
 
 
     function init(){
+
+		$scope.search = {};
+		$scope.column = {name:"name",id:"id"};
+	    $scope.itemsPerPage = 10;
+	    $scope.maxSize = 5;
+
+    	$scope.changeDisplayMode($scope.DisplayModeEnum.List);
+
     	$scope.reload();
     }
 

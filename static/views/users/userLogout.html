@@ -1,9 +1,21 @@
 <div class="container">
 
-	<br/><br/><br/><br/>
+	<div class="col-sm-6 col-sm-offset-3">
 
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);" class="col-sm-6 col-sm-offset-3">
-		{{alert.msg}}
-	</alert>
+		<br/><br/><br/><br/>
+
+		<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+			{{alert.msg}}
+		</alert>
+
+		<br/><br/><br/><br/>
+
+		<div class="col-sm-6 col-sm-offset-3">
+			<a class="btn btn-info btn-lg btn-block" href="#/">
+				<span class="glyphicon glyphicon-home"></span> Home
+			</a>
+		</div>
+
+	</div>	
 
 </div>

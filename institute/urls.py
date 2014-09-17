@@ -11,6 +11,7 @@ urlpatterns = patterns (
 	url(r'^student/update\.json$',views.student_update),
 
 	url(r'^course/list\.json$',views.course_list),
+	url(r'^course/(\d+)/subjects\.json$',views.course_subjects),
 
 	url(r'^contract/post\.json$',views.contract_post),
 	url(r'^contract/update\.json$',views.contract_update),
@@ -27,6 +28,10 @@ urlpatterns = patterns (
 	url(r'^agreement/update\.json$',views.agreement_update),
 	url(r'^agreement/(\d+)/get\.json$',views.agreement_get),
 	url(r'^agreement/(\d+)/groups\.json$',views.agreement_groups),
+
+	url(r'^group/post\.json$',views.group_post),
+	url(r'^group/update\.json$',views.group_update),
+	url(r'^group/(\d+)/get\.json$',views.group_get),
 
 	url(r'^circle/list\.json$',views.circle_list),
 

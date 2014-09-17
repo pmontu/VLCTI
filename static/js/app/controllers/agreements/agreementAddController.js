@@ -1,5 +1,5 @@
 angular.module("vlctiApp").controller("agreementAddController",
-	function($scope, instituteFactory, $routeParams){
+	function($scope, instituteFactory, $routeParams, $location){
 		
 		$scope.alerts= [];
 		$scope.facultyId = parseInt($routeParams.facultyId) ? $routeParams.facultyId : 0;
@@ -24,15 +24,17 @@ angular.module("vlctiApp").controller("agreementAddController",
 		$scope.saveAgreement = function(){
 
 			$scope.agreement.facultyId = $scope.faculty.id;
-			instituteFactory.Agreement.post($scope.agreement).success(function(data){
+			instituteFactory.Agreement.post($scope.agreement).success(function(agreementId){
 				$scope.alerts.push({
 					type:"success",
 					msg:"Successfully added agreement",
 					facultyName:$scope.faculty.name,
-					agreementId:data
+					agreementId:agreementId
 				});
 
-			$scope.agreement = {}
+				$location.path("/agreement/"+agreementId+"/group/add");
+
+				$scope.agreement = {}
 
 
 			}).error(function(data, status){

@@ -1,0 +1,89 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}  
+		<a class="btn btn-link" ng-if="alert.groupId" href="#/group/{{alert.groupId}}/edit">
+			<span class="glyphicon glyphicon-leaf"></span> class id #{{alert.groupId}}
+		</a>
+	</alert>
+
+</div>
+
+<div class="container" ng-show="isValidAgreementId">
+
+	<h1>
+		<span class="glyphicon glyphicon-edit"></span> Add Class Room
+	</h1>
+
+	<h3>
+		<a href="#/faculty/{{faculty.id}}/edit">{{faculty.name}}</a>
+	</h3>
+	
+	<div>Age: {{faculty.age || "-"}}</div>
+	<div>Email: {{faculty.email || "-"}}</div>
+	<div>Phone: {{faculty.phone || "-"}}</div>
+
+	<h3>
+		Agreement <a href="#/agreement/{{agreement.id}}/edit">#{{agreement.id}}</a>
+	</h3>
+	
+	<div>Start Date: {{agreement.startdate | date}}</div>
+	<div>Salary: {{agreement.type}}</div>
+	<div>Amount: {{agreement.amount | currency:"₹"}}</div>
+	<br/><br/>
+
+
+	<form class="form-horizontal" role="form" ng-submit="saveGroup()">
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Course</label>
+			<div class="col-sm-5">
+				<select ng-model="group.course" ng-options="c.id as c.name for c in courses" class="form-control" required ng-change="courseChanged()">
+					<option value="">----</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group form-group-lg" ng-if="group.course">
+			<label class="col-sm-2 control-label">Subject</label>
+			<div class="col-sm-5">
+				<select ng-model="group.subject" ng-options="s.id as s.name for s in subjects" class="form-control" required>
+					<option value="">----</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Start Time</label>
+			<div class="col-sm-5">
+				<input type="time" class="form-control" ng-model="group.start" required/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">End Time</label>
+			<div class="col-sm-5">
+				<input type="time" class="form-control" ng-model="group.end" required/>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Type</label>
+			<div class="col-sm-5">
+				<select ng-model="group.mode" class="form-control" required>
+					<option value="">----</option>
+					<option value="I">Individual</option>
+					<option value="G">Group</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="col-sm-offset-2">
+			<button class="btn btn-primary btn-lg">
+				<span class="glyphicon glyphicon-floppy-disk"></span> Save
+			</button>
+		</div>
+
+	</form>
+</div>
