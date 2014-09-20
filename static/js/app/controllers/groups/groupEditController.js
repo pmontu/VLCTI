@@ -36,7 +36,6 @@ angular.module("vlctiApp").controller("groupEditController",
 					$scope.alerts.push({type:"danger", msg:"Unable to retrieve list of courses"});
 				});
 
-				console.log(Group);
 				instituteFactory.Course.subjects(Group.course).success(function(Subjects){
 					$scope.subjects = Subjects;
 				}).error(function(){

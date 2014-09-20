@@ -17,6 +17,15 @@ urlpatterns = patterns (
 	url(r'^contract/update\.json$',views.contract_update),
 	url(r'^contract/(\d+)/get\.json$',views.contract_get),
 	url(r'^contract/(\d+)/subjects\.json$',views.contract_subjects),
+	url(r'^contract/(\d+)/receipts\.json$',views.contract_receipts),
+
+	url(r'^receipt/post\.json$',views.receipt_post),
+	url(r'^receipt/update\.json$',views.receipt_update),
+	url(r'^receipt/(\d+)/get\.json$',views.receipt_get),
+
+	url(r'^subject/post\.json$',views.subject_post),
+	url(r'^subject/(\d+)/get\.json$',views.subject_get),
+	url(r'^subject/update\.json$',views.subject_update),
 
 	url(r'^faculty/list\.json$',views.faculty_list),
 	url(r'^faculty/(\d+)/get\.json$',views.faculty_get),
@@ -28,10 +37,16 @@ urlpatterns = patterns (
 	url(r'^agreement/update\.json$',views.agreement_update),
 	url(r'^agreement/(\d+)/get\.json$',views.agreement_get),
 	url(r'^agreement/(\d+)/groups\.json$',views.agreement_groups),
+	url(r'^agreement/(\d+)/payments\.json$',views.agreement_payments),
 
 	url(r'^group/post\.json$',views.group_post),
 	url(r'^group/update\.json$',views.group_update),
 	url(r'^group/(\d+)/get\.json$',views.group_get),
+	url(r'^group/list\.json$',views.group_list),
+
+	url(r'^payment/post\.json$',views.payment_post),
+	url(r'^payment/update\.json$',views.payment_update),
+	url(r'^payment/(\d+)/get\.json$',views.payment_get),
 
 	url(r'^circle/list\.json$',views.circle_list),
 

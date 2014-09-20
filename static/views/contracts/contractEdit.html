@@ -16,8 +16,11 @@
 
 	<h3>
 		<a href="#/student/{{student.id}}/edit">{{student.name}}</a>
-		(<a href="#/contract/{{contract.id}}/subjects">View Subjects</a>)
 	</h3>
+
+
+	<a href="#/contract/{{contract.id}}/subjects" class="btn btn-link btn-lg"><span class="glyphicon glyphicon-book"></span> Subjects</a>
+	<a href="#/contract/{{contract.id}}/receipts" class="btn btn-link btn-lg"><span class="glyphicon glyphicon-euro"></span> Receipts</a>
 	
 	<div>Age: {{student.age || "-"}}</div>
 	<div>Email: {{student.email || "-"}}</div>

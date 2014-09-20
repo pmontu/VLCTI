@@ -15,8 +15,14 @@
 	</h1>
 
 	<h3>
-		<a href="#/faculty/{{faculty.id}}/edit">{{faculty.name}}</a> (<a href="#/agreement/{{agreement.id}}/groups">View Groups</a>)
+		<a href="#/faculty/{{faculty.id}}/edit">{{faculty.name}}</a>
 	</h3>
+
+
+	<a href="#/agreement/{{agreement.id}}/groups" class="btn btn-link btn-lg"><span class="glyphicon glyphicon-time"></span> Classes</a>
+	<a href="#/agreement/{{agreement.id}}/payments" class="btn btn-link btn-lg"><span class="glyphicon glyphicon-euro"></span> Payments</a>
+
+
 	<div>Age: {{faculty.age || "-"}}</div>
 	<div>Email: {{faculty.email || "-"}}</div>
 	<div>Phone: {{faculty.phone || "-"}}</div>

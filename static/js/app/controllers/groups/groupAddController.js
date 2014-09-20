@@ -32,11 +32,13 @@ angular.module("vlctiApp").controller("groupAddController",
 		}
 
 		$scope.courseChanged = function(){
-			instituteFactory.Course.subjects($scope.group.course).success(function(Subjects){
-				$scope.subjects = Subjects;
-			}).error(function(){
-				$scope.alerts.push({type:"danger", msg:"Unable to retrieve list of subjects"});
-			});
+			if($scope.group.course!=null){
+				instituteFactory.Course.subjects($scope.group.course).success(function(Subjects){
+					$scope.subjects = Subjects;
+				}).error(function(){
+					$scope.alerts.push({type:"danger", msg:"Unable to retrieve list of subjects"});
+				});
+			}
 		}
 
 		$scope.saveGroup = function(){

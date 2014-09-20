@@ -1,0 +1,134 @@
+<navbar></navbar>
+
+<div class="container">
+
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index);">
+		{{alert.msg}}
+		<span ng-if="alert.subjectId">
+			<a href="#/subject/{{alert.subjectId}}/edit">
+				<span class="glyphicon glyphicon-book"></span>
+				subject id #{{alert.subjectId}}
+			</a>
+		</span>
+	</alert>
+
+</div>
+
+<div class="container" ng-show="isValidContractId">
+
+	<h1>
+		<span class="glyphicon glyphicon-edit"></span> Add Subject
+	</h1>
+
+	<h3>
+		<a href="#/student/{{student.id}}/edit">{{student.name}}</a>
+	</h3>
+	<div>Age: {{student.age || "-"}}</div>
+	<div>Email: {{student.email || "-"}}</div>
+	<div>Phone: {{student.cell || "-"}}</div>
+	<br/><br/>
+
+	<h3>
+		Contract <a href="#/contract/{{contract.id}}/edit">#{{contract.id}}</a>
+	</h3>
+	
+	<div>Joining Date: {{contract.join | date}}</div>
+	<div>Amount: {{contract.amount | currency:"₹"}}</div>
+	<div>Hours: {{contract.hours}}</div>
+	<br/><br/>
+
+	<form class="form-horizontal" role="form" ng-submit="saveSubject()">
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Course</label>
+			<div class="col-sm-5">
+				<select ng-model="subject.courseId" ng-options="c.id as c.name for c in courses" class="form-control" required ng-change="courseChanged()">
+					<option value="">----</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group form-group-lg" ng-if="subject.courseId">
+			<label class="col-sm-2 control-label">Subject</label>
+			<div class="col-sm-5">
+				<select ng-model="subject.subjectId" ng-options="s.id as s.name for s in subjects" class="form-control" required>
+					<option value="">----</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Class Room</label>
+			<div class="col-sm-5">
+				<div class="input-group">
+					<select ng-model="subject.groupId" class="form-control" ng-options="g.id as g.shortString for g in groups">
+						<option value="">----</option>
+					</select>
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default btn-lg" ng-init="displayFilters=false" ng-click="displayFilters = !displayFilters">
+							<span class="glyphicon glyphicon-filter"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+			<div class="col-sm-5" ng-if="displayFilters">
+
+				<div class="form-horizontal">
+
+					<div class="form-group">
+						<select ng-model="filter.courseId" ng-options="c.id as c.name for c in courses" class="form-control" ng-change="filterCourseChanged();filterChanged()">
+							<option value="">--- Course ---</option>
+						</select>
+					</div>
+
+					<div class="form-group" ng-if="filter.courseId">
+						<select ng-model="filter.subjectId" ng-options="s.id as s.name for s in filterSubjects" class="form-control" ng-change="filterChanged()">
+							<option value="">--- Subject ---</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Faculty Name" ng-change="filterChanged()" ng-model="filter.facultyName">
+					</div>
+
+					<div class="form-group">
+						<input type="number" min="1" class="form-control" placeholder="Faculty Id" ng-change="filterChanged()" ng-model="filter.facultyId">
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-sm-2">After</label>
+						<input type="time" class="form-control" ng-change="filterChanged()" ng-model="filter.start" ng-required/>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2">Before</label>
+						<input type="time" class="form-control" ng-change="filterChanged()" ng-model="filter.end"/>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Joining Date</label>
+			<div class="col-sm-5">
+				<input type="date" class="form-control" ng-required="subject.groupId" ng-model="subject.join">
+			</div>
+		</div>
+
+		<div class="form-group form-group-lg">
+			<label class="col-sm-2 control-label">Leaving Date</label>
+			<div class="col-sm-5">
+				<input type="date" class="form-control" ng-model="subject.leave">
+			</div>
+		</div>
+
+
+		<button class="btn btn-primary btn-lg col-sm-offset-2">
+			<span class="glyphicon glyphicon-floppy-disk"></span> Save
+		</button>
+
+	</form>
+
+
+
+</div>

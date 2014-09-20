@@ -34,6 +34,30 @@ app.config(function($routeProvider,$httpProvider){
 			controller: "contractSubjectsController",
 			templateUrl: "views/contracts/contractSubjects.html"
 
+		}).when('/contract/:contractId/receipts',{
+			controller: "contractReceiptsController",
+			templateUrl: "views/contracts/contractReceipts.html"
+
+
+
+		}).when('/contract/:contractId/subject/add',{
+			controller: "subjectAddController",
+			templateUrl: "views/subjects/subjectAdd.html"
+
+		}).when('/subject/:subjectId/edit',{
+			controller: "subjectEditController",
+			templateUrl: "views/subjects/subjectEdit.html"
+
+
+
+		}).when('/contract/:contractId/receipt/add',{
+			controller: "receiptAddController",
+			templateUrl: "views/receipts/receiptAdd.html"
+
+		}).when('/receipt/:receiptId/edit',{
+			controller: "receiptEditController",
+			templateUrl: "views/receipts/receiptEdit.html"
+
 
 
 		}).when('/faculties',{
@@ -59,6 +83,9 @@ app.config(function($routeProvider,$httpProvider){
 		}).when('/agreement/:agreementId/groups',{
 			controller: "agreementGroupsController",
 			templateUrl: "views/agreements/agreementGroups.html"
+		}).when('/agreement/:agreementId/payments',{
+			controller: "agreementPaymentsController",
+			templateUrl: "views/agreements/agreementPayments.html"
 
 
 		}).when('/user/login',{
@@ -75,6 +102,16 @@ app.config(function($routeProvider,$httpProvider){
 		}).when('/group/:groupId/edit',{
 			controller: "groupEditController",
 			templateUrl: "views/groups/groupEdit.html"
+
+
+
+		}).when('/agreement/:agreementId/payment/add',{
+			controller: "paymentAddController",
+			templateUrl: "views/payments/paymentAdd.html"
+
+		}).when('/payment/:paymentId/edit',{
+			controller: "paymentEditController",
+			templateUrl: "views/payments/paymentEdit.html"
 		});
 });
 
@@ -123,6 +160,31 @@ app.factory('instituteFactory', function($http){
 		},
 		subjects:function(Id){
 			return $http.get(domain+"contract/"+Id+"/subjects.json");
+		},
+		receipts:function(Id){
+			return $http.get(domain+"contract/"+Id+"/receipts.json");
+		}
+	};
+	factory['Subject'] = {
+		post:function(Data){
+			return $http.post(domain+"subject/post.json",Data);
+		},
+		get:function(Id){
+			return $http.get(domain+"subject/"+Id+"/get.json");
+		},
+		update:function(Data){
+			return $http.post(domain+"subject/update.json",Data);
+		}
+	};
+	factory['Receipt'] = {
+		post:function(Data){
+			return $http.post(domain+"receipt/post.json",Data);
+		},
+		get:function(Id){
+			return $http.get(domain+"receipt/"+Id+"/get.json");
+		},
+		update:function(Data){
+			return $http.post(domain+"receipt/update.json",Data);
 		}
 	};
 	factory['Faculty'] = {
@@ -154,6 +216,9 @@ app.factory('instituteFactory', function($http){
 		},
 		groups:function(Id){
 			return $http.get(domain+"agreement/"+Id+"/groups.json");
+		},
+		payments:function(Id){
+			return $http.get(domain+"agreement/"+Id+"/payments.json");
 		}
 	}
 	factory['Group'] = {
@@ -165,8 +230,22 @@ app.factory('instituteFactory', function($http){
 		},
 		get:function(Id){
 			return $http.get(domain+"group/"+Id+"/get.json");
+		},
+		list:function(Filters){
+			return $http.post(domain+"group/list.json",Filters);
 		}
 	}
+	factory['Payment'] = {
+		post:function(Data){
+			return $http.post(domain+"payment/post.json",Data);
+		},
+		get:function(Id){
+			return $http.get(domain+"payment/"+Id+"/get.json");
+		},
+		update:function(Data){
+			return $http.post(domain+"payment/update.json",Data);
+		}
+	};
 	factory['Circle'] = {
 		list:function(){
 			return $http.post(domain+"circle/list.json");

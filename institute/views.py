@@ -58,6 +58,206 @@ def user_login(request):
 	return HttpResponse(user.id, mimetype="application/json")
 
 @login_required
+def receipt_get(request, id):
+
+	r = Receipt.objects.select_related("Contract").get(id = id)
+
+	data = {
+		"amount":r.amount,
+		"id":r.id,
+		"date":str(r.date),
+		"serial":r.serial,
+		"contractId":r.contract.id
+	}
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
+def receipt_post(request):
+
+	j = json.loads(request.body)
+
+	r = Receipt()
+	r.contract = Contract.objects.get(id = j["contractId"])
+	r.amount = j["amount"]
+	r.date = j["date"]
+	r.serial = j["serial"]
+	r.save()
+
+	return HttpResponse(json.dumps(r.id), mimetype="application/json")
+
+@login_required
+def receipt_update(request):
+
+	j = json.loads(request.body)
+
+	r = Receipt.objects.get(id = j["id"])
+	r.amount = j["amount"]
+	r.date = j["date"]
+	r.serial = j["serial"]
+	r.save()
+
+	return HttpResponse(json.dumps(r.id), mimetype="application/json")
+
+@login_required
+def contract_receipts(request, id):
+
+	receipts = Receipt.objects.filter(contract = Contract.objects.filter(id = id))
+
+	data = []
+	for r in receipts:
+		data.append({
+			"amount":r.amount,
+			"id":r.id,
+			"date":str(r.date),
+			"serial":r.serial,
+			"contract":id
+		})
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
+def payment_get(request, id):
+
+	p = Payment.objects.select_related("FacultyContract").get(id = id)
+
+	data = {
+		"amount":p.amount,
+		"id":p.id,
+		"date":str(p.date),
+		"serial":p.serial,
+		"agreementId":p.facultycontract.id
+	}
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
+def payment_post(request):
+
+	j = json.loads(request.body)
+
+	p = Payment()
+	p.facultycontract = Contract.objects.get(id = j["agreementId"])
+	p.amount = j["amount"]
+	p.date = j["date"]
+	p.serial = j["serial"]
+	p.save()
+
+	return HttpResponse(json.dumps(p.id), mimetype="application/json")
+
+@login_required
+def payment_update(request):
+
+	j = json.loads(request.body)
+
+	p = Payment.objects.get(id = j["id"])
+	p.amount = j["amount"]
+	p.date = j["date"]
+	p.serial = j["serial"]
+	p.save()
+
+	return HttpResponse(json.dumps(p.id), mimetype="application/json")
+
+@login_required
+def agreement_payments(request, id):
+
+	payments = Payment.objects.filter(facultycontract = FacultyContract.objects.filter(id = id))
+
+	data = []
+	for p in payments:
+		data.append({
+			"amount":p.amount,
+			"id":p.id,
+			"date":str(p.date),
+			"serial":p.serial,
+			"contract":id
+		})
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
+def subject_post(request):
+
+	j = json.loads(request.body)
+
+	s = Subject()
+	s.contract = Contract.objects.get(id = j["contractId"])
+	s.course = Course.objects.get(id = j["subjectId"])
+	s.group = Group.objects.get(id = j["groupId"]) if "groupId" in j else None
+	s.joiningdate = j["join"] if "join" in j and "groupId" in j else None
+	s.leavingdate = j["leave"] if "leave" in j and "join" in j and "groupId" in j and len(j["leave"])>0 else None
+
+	s.save()
+	return HttpResponse(json.dumps(s.id), mimetype="application/json")
+
+@login_required
+def subject_get(request, id):
+
+	s = Subject.objects.select_related("Contract","Course__Course","Group").get(id = id)
+
+	data = {
+		"contract":s.contract.id,
+		"course":s.course.parent.id if s.course.parent is not None else None,
+		"subject":s.course.id,
+		"id":s.id,
+		"group":s.group.id if s.group is not None else None,
+		"join":str(s.joiningdate) if s.joiningdate is not None else None,
+		"leave":str(s.leavingdate) if s.leavingdate is not None else None
+	}
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
+def subject_update(request):
+
+	j = json.loads(request.body)
+
+	s = Subject.objects.get(id = j["id"])
+	s.group = Group.objects.get(id = j["group"]) if "group" in j and "join" in j else None
+	s.joiningdate = j["join"] if "join" in j and "group" in j else None
+	s.leavingdate = j["leave"] if "join" in j and "group" in j and "leave" in j and len(j["leave"])>0 else None
+
+	s.save()
+	return HttpResponse(json.dumps(s.id), mimetype="application/json")
+
+@login_required
+def group_list(request):
+
+	j = json.loads(request.body)
+
+	filters = {}
+
+	if "courseId" in j:
+		course = Course.objects.get(id = j["courseId"])
+		filters["course__in"] =  Course.objects.filter(parent = course)
+
+	if "subjectId" in j:
+		filters["course"] = Course.objects.get(id = j["subjectId"])
+
+	if "facultyName" in j:
+		filters["facultycontract__in"] = FacultyContract.objects.filter(faculty__in = Faculty.objects.filter(name__startswith = j["facultyName"]))
+
+	if "facultyId" in j:
+		filters["facultycontract__in"] = FacultyContract.objects.filter(faculty__in = Faculty.objects.filter(id = j["facultyId"]))
+
+	if "start" in j:
+		filters["start__gte"] = j["start"]
+
+	if "end" in j:
+		filters["start__lte"] = j["end"]
+
+	groups = Group.objects.select_related("FacultyContract__Faculty", "Course__Course").filter(**filters)
+
+	data = []
+	for g in groups:
+		data.append({
+			"shortString":"#%d(%s_%s@%s-%s)" % (g.id, g.facultycontract.faculty.name, g.course.name, time.strftime(g.start, "%H:%M"), time.strftime(g.end, "%H:%M")),
+			"id":g.id
+		})
+
+	return HttpResponse(json.dumps(data), mimetype="application/json")
+
+@login_required
 def group_post(request):
 
 	j = json.loads(request.body)
