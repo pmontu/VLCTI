@@ -35,7 +35,7 @@
 			<th>Amount</th>
 			<th>Hours</th>
 			<th>Leaving Date</th>
-			<th>Actions</th>
+			<th class="text-center">Actions</th>
 		</tr>
 		<tr ng-repeat="contract in contracts" ng-class="{info:!contract.leave}">
 			<td>{{$index+1}}</td>
@@ -47,6 +47,8 @@
 			<td>{{(contract.leave | date) || "-"}}</td>
 			<td>
 				<a type="button" class="btn btn-link" href="#/contract/{{contract.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+				<a href="#/contract/{{contract.id}}/subjects" class="btn btn-link"><span class="glyphicon glyphicon-book"></span> Subjects</a>
+				<a href="#/contract/{{contract.id}}/receipts" class="btn btn-link"><span class="glyphicon glyphicon-euro"></span> Receipts</a>
 			</td>
 		</tr>
 

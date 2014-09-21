@@ -43,6 +43,8 @@
 			<td>{{(agreement.enddate | date) || "-"}}</td>
 			<td>
 				<a type="button" class="btn btn-link" href="#/agreement/{{agreement.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+				<a href="#/agreement/{{agreement.id}}/groups" class="btn btn-link"><span class="glyphicon glyphicon-time"></span> Classes</a>
+				<a href="#/agreement/{{agreement.id}}/payments" class="btn btn-link"><span class="glyphicon glyphicon-euro"></span> Payments</a>
 			</td>
 		</tr>
 

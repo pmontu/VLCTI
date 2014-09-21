@@ -46,12 +46,12 @@
 
 			<table class="table table-striped">
 				<tr class="active">
-					<th><button ng-click="orderByStudents(column.id);sortDirection=!sortDirection" class="btn btn-link btn-lg">ID</button></th>
-					<th><button ng-click="orderByStudents(column.name);sortDirection=!sortDirection" class="btn btn-link btn-lg">Name</button></th>
-					<th>Age</th>
-					<th>Cell</th>
-					<th>Address</th>
-					<th>Actions</th>
+					<th class="text-center"><button ng-click="orderByStudents(column.id);sortDirection=!sortDirection" class="btn btn-link btn-lg">ID</button></th>
+					<th class="text-center"><button ng-click="orderByStudents(column.name);sortDirection=!sortDirection" class="btn btn-link btn-lg">Name</button></th>
+					<th class="text-center">Age</th>
+					<th class="text-center">Cell</th>
+					<th class="text-center">Address</th>
+					<th class="text-center">Actions</th>
 				</tr>
 				<tr ng-repeat="s in students">
 					<td>{{s.id}}</td>
@@ -59,8 +59,9 @@
 					<td>{{s.age}}</td>
 					<td>{{s.cell}}</td>
 					<td>{{s.address}}</td>
-					<td>
+					<td class="text-right">
 						<a type="button" class="btn btn-link" href="#/student/{{s.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+						<a href="#/student/{{s.id}}/contracts"><span class="glyphicon glyphicon-folder-open"></span> Contracts</a>
 					</td>
 				</tr>
 			</table>

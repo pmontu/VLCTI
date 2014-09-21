@@ -1,5 +1,5 @@
-angular.module("vlctiApp").controller("receiptAddController", function($scope, $routeParams, instituteFactory, $location){
-	$scope.contractId = parseInt($routeParams.contractId) ? $routeParams.contractId : null;
+angular.module("vlctiApp").controller("paymentAddController", function($scope, $routeParams, instituteFactory, $location){
+	$scope.agreementId = parseInt($routeParams.agreementId) ? $routeParams.agreementId : null;
 	$scope.alerts = [];
 
 	$scope.closeAlerts = function(Index){
@@ -8,33 +8,33 @@ angular.module("vlctiApp").controller("receiptAddController", function($scope, $
 
 	function init(){
 		
-		instituteFactory.Contract.get($scope.contractId).success(function(Contract){
-			$scope.contract = Contract;
-			$scope.isValidContractId = true;
+		instituteFactory.Agreement.get($scope.agreementId).success(function(Agreement){
+			$scope.agreement = Agreement;
+			$scope.isValidAgreementId = true;
 
-			instituteFactory.Student.get(Contract.studentId).success(function(Student){
-				$scope.student = Student;
+			instituteFactory.Faculty.get(Agreement.facultyId).success(function(Faculty){
+				$scope.faculty = Faculty;
 			}).error(function(){
-				$scope.alerts.push({type:"danger", msg:"Unable to get student details"});
+				$scope.alerts.push({type:"danger", msg:"Unable to get faculty details"});
 			});
 		}).error(function(){
-			$scope.alerts.push({type:"danger", msg:"Unable to get contract details"});
-			$scope.isValidContractId = false;
+			$scope.alerts.push({type:"danger", msg:"Unable to get agreement details"});
+			$scope.isValidAgreementId = false;
 		});	
 	}
 
-	$scope.saveReceipt = function(){
-		$scope.receipt.contractId = $scope.contract.id;
-		instituteFactory.Receipt.post($scope.receipt).success(function(receiptId){
+	$scope.savePayment = function(){
+		$scope.payment.agreementId = $scope.agreement.id;
+		instituteFactory.Payment.post($scope.payment).success(function(paymentId){
 			$scope.alerts.push({
 				type:"success",
-				msg:"Successfully added receipt.",
-				receiptId:receiptId
+				msg:"Successfully added payment.",
+				paymentId:paymentId
 			});
-			$location.path("/contract/"+$scope.receipt.contractId+"/receipts");
-			$scope.receipt = {};
+			$location.path("/agreement/"+$scope.payment.agreementId+"/payments");
+			$scope.payment = {};
 		}).error(function(){
-			$scope.alerts.push({type:"danger", msg:"Unable to add receipt"});
+			$scope.alerts.push({type:"danger", msg:"Unable to add payment"});
 		});
 	}
 

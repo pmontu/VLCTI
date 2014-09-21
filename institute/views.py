@@ -137,7 +137,7 @@ def payment_post(request):
 	j = json.loads(request.body)
 
 	p = Payment()
-	p.facultycontract = Contract.objects.get(id = j["agreementId"])
+	p.facultycontract = FacultyContract.objects.get(id = j["agreementId"])
 	p.amount = j["amount"]
 	p.date = j["date"]
 	p.serial = j["serial"]

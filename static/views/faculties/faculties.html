@@ -86,16 +86,17 @@
 					<th>Circle</th>
 					<th>Actions</th>
 				</tr>
-				<tr ng-repeat="f in faculties">
-					<td>{{f.id}}</td>
-					<td>{{f.name}}</td>
-					<td>{{f.qualification}}</td>
-					<td>{{f.experience}}</td>
-					<td>{{f.age}}</td>
-					<td>{{f.phone}}</td>
-					<td>{{f.circle}}</td>
+				<tr ng-repeat="faculty in faculties">
+					<td>{{faculty.id}}</td>
+					<td>{{faculty.name}}</td>
+					<td>{{faculty.qualification}}</td>
+					<td>{{faculty.experience}}</td>
+					<td>{{faculty.age}}</td>
+					<td>{{faculty.phone}}</td>
+					<td>{{faculty.circle}}</td>
 					<td>
 						<a type="button" class="btn btn-link" href="#/faculty/{{f.id}}/edit"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+						<a href="#/faculty/{{faculty.id}}/agreements"><span class="glyphicon glyphicon-folder-open"></span> Agreements</a>
 					</td>
 				</tr>
 			</table>
