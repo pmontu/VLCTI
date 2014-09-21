@@ -1,9 +1,9 @@
 # Training Institute Administration
 
-1. Student
-2. Student Aggrement
-3. Faculty
-4. Faculty Contract
-5. Class
+1. Having Students, Contracts & Subjects
+2. Managed by Faculty, Agreements & Class Rooms
+4. Contains Overdue Reports & Search Pages
 
-## Django & Angular
+# Single Page Application
+
+1. Using Bootstrap, Angular & Django
