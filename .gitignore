@@ -1,5 +1,5 @@
+venv
 *.pyc
-*.sqlite3
-script.py
-erd.png
-erd.dot
+staticfiles
+.env
+db.sqlite3

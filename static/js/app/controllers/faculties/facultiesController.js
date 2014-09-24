@@ -4,7 +4,7 @@ angular.module("vlctiApp").controller("facultiesController",function($scope, ins
 
 	$scope.search = {};
     $scope.itemsPerPage = 10;
-    $scope.maxSize = 5;
+    $scope.maxSize = 10;
 
     $scope.SortByColumnEnum = {
     	name:"name",
