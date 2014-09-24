@@ -121,7 +121,7 @@ app.config(function($routeProvider,$httpProvider){
 app.factory('instituteFactory', function($http){
 
 	var factory = {};
-	var domain = "http://127.0.0.1:12345/institute/";
+	var domain = window.location.hostname + "/";
 
 	factory['Student'] = {
 		get:function(id){
