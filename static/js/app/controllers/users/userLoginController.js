@@ -5,7 +5,7 @@ angular.module("vlctiApp").controller("userLoginController",function($scope, ins
 	$scope.login = function(){
 
 		instituteFactory.User.login($scope.user).success(function(data){
-			$location.path("/");
+			$location.path("/faculties");
 		}).error(function(){
 			$scope.alerts.push({type:"danger", msg:"Authentication Failed"})
 		});
